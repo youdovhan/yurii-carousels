@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>10 каруселей — A/B тест (Harmony vs Hormozi)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Oswald:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --paper:#f4eddc;
+  --ink:#1a1410;
+  --ink-soft:#4a3f33;
+  --mute:#7a6a55;
+  --blood:#b01c20;
+  --amber:#b8722c;
+  --green:#3d7a6e;
+}
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.5;
+}
+.container{max-width:1400px;margin:0 auto;padding:40px 30px}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:60px 20px 40px;
+  border-bottom:3px solid var(--amber);
+  margin-bottom:60px;
+}
+.hero .kicker{
+  font-family:'Oswald',sans-serif;font-weight:500;
+  letter-spacing:6px;text-transform:uppercase;
+  font-size:16px;color:var(--amber);
+  margin-bottom:20px;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:64px;line-height:1.0;
+  color:var(--ink);
+  margin-bottom:24px;
+}
+.hero h1 em{color:var(--blood);font-style:normal}
+.hero p{
+  font-size:22px;color:var(--ink-soft);
+  max-width:780px;margin:0 auto;
+}
+
+/* A/B HEADING */
+.variant-section{margin-bottom:60px}
+.variant-header{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:2px solid var(--ink);
+  padding-bottom:16px;margin-bottom:32px;
+}
+.variant-header h2{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;
+  font-size:32px;
+}
+.variant-header h2 .tag{
+  display:inline-block;
+  margin-left:12px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;background:var(--blood);color:var(--paper);
+  padding:4px 10px;vertical-align:middle;letter-spacing:1px;
+}
+.variant-header h2.hormozi .tag{background:var(--amber)}
+.variant-header .desc{font-size:16px;color:var(--mute);font-style:italic}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:20px;
+}
+@media (max-width:1200px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+.card{
+  background:#fff;
+  border:1px solid rgba(26,20,16,0.15);
+  box-shadow:0 4px 12px rgba(0,0,0,0.06);
+  overflow:hidden;cursor:pointer;
+  transition:transform 0.15s,box-shadow 0.15s;
+  display:flex;flex-direction:column;
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.12)}
+.card .preview{
+  width:100%;aspect-ratio:4/5;
+  background:#111;
+  background-size:cover;background-position:center;
+}
+.card .meta{padding:18px 20px}
+.card .code-word{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:28px;letter-spacing:3px;
+  color:var(--blood);margin-bottom:6px;
+}
+.card .product{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:14px;color:var(--ink-soft);line-height:1.3;
+}
+.card .dna{
+  display:inline-block;
+  margin-top:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:1px;
+  background:rgba(184,114,44,0.12);color:var(--amber);
+  padding:3px 8px;
+}
+
+/* METRICS TABLE */
+.metrics{
+  margin:60px 0;
+  background:#fff;border:1px solid rgba(26,20,16,0.15);
+  padding:32px;
+}
+.metrics h2{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;
+  font-size:28px;margin-bottom:20px;
+  border-left:6px solid var(--blood);padding-left:16px;
+}
+.metrics p{color:var(--mute);margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{
+  background:var(--ink);color:var(--paper);
+  font-family:'Oswald',sans-serif;font-weight:500;
+  letter-spacing:2px;text-transform:uppercase;font-size:12px;
+  padding:12px 10px;text-align:left;
+}
+td{padding:10px;border-bottom:1px solid rgba(26,20,16,0.08)}
+td.code{font-family:'Oswald',sans-serif;font-weight:700;color:var(--blood);letter-spacing:2px}
+td.harmony-tag{background:rgba(176,28,32,0.04)}
+td.hormozi-tag{background:rgba(184,114,44,0.08)}
+
+/* HYPOTHESES */
+.hypotheses{
+  background:var(--ink);color:var(--paper);
+  padding:40px;margin:60px 0;
+}
+.hypotheses h2{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;font-size:28px;
+  color:var(--amber);margin-bottom:20px;
+}
+.hypotheses ul{list-style:none;padding:0}
+.hypotheses li{
+  font-size:18px;padding:14px 0 14px 60px;position:relative;
+  border-bottom:1px solid rgba(244,237,220,0.1);
+}
+.hypotheses li::before{
+  content:attr(data-h);
+  position:absolute;left:0;top:14px;
+  font-family:'Oswald',sans-serif;font-weight:700;
+  color:var(--amber);font-size:18px;letter-spacing:2px;
+}
+
+/* LIGHTBOX */
+.lightbox{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.92);z-index:1000;
+  overflow-y:auto;padding:40px 20px;
+}
+.lightbox.active{display:block}
+.lightbox-inner{max-width:540px;margin:0 auto}
+.lightbox-close{
+  position:fixed;top:20px;right:20px;
+  color:#fff;font-size:40px;cursor:pointer;
+  background:none;border:none;z-index:1001;
+  font-family:'IBM Plex Sans',sans-serif;
+}
+.lightbox-title{
+  text-align:center;color:#fff;
+  font-family:'Oswald',sans-serif;font-weight:700;
+  text-transform:uppercase;letter-spacing:3px;
+  font-size:22px;margin-bottom:20px;
+}
+.lightbox-title .word{color:var(--amber)}
+.lightbox img{
+  width:100%;display:block;margin-bottom:8px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.4);
+}
+.caption-box{
+  background:#111;color:#ccc;padding:24px;
+  font-size:14px;line-height:1.6;white-space:pre-wrap;
+  margin-top:20px;max-height:400px;overflow-y:auto;
+}
+.caption-box h4{color:var(--amber);margin-bottom:10px;font-family:'Oswald',sans-serif;letter-spacing:2px}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:40px 0;
+  color:var(--mute);font-size:14px;
+  border-top:2px solid var(--ink);
+}
+.footer a{color:var(--blood);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <section class="hero">
+    <div class="kicker">A/B TEST · @YURII_DOVHAN · 2026-04-24</div>
+    <h1>10 каруселей. <em>Два підходи.</em><br>Один тест.</h1>
+    <p>5 продуктів × 2 копірайтинг-стилі. Harmony (детектив-Zeigarnik) vs Hormozi (Grand Slam Offer). Різні кодові слова — чистий A/B. Публікуй обидва на тиждень — побачиш що клює.</p>
+  </section>
+
+  <!-- HARMONY -->
+  <section class="variant-section">
+    <div class="variant-header">
+      <h2>Harmony <span class="tag">ДЕТЕКТИВ · ZEIGARNIK</span></h2>
+      <div class="desc">Короткі речення · гачок · відкриті петлі · sour knight voice</div>
+    </div>
+    <div class="grid" id="harmony-grid"></div>
+  </section>
+
+  <!-- HORMOZI -->
+  <section class="variant-section">
+    <div class="variant-header">
+      <h2 class="hormozi">Hormozi <span class="tag">GRAND SLAM OFFER</span></h2>
+      <div class="desc">MAGIC · Value Equation · 3 кроки · бонуси · чесна scarcity · ROI-цифри</div>
+    </div>
+    <div class="grid" id="hormozi-grid"></div>
+  </section>
+
+  <!-- METRICS -->
+  <section class="metrics">
+    <h2>A/B — таблиця для заповнення</h2>
+    <p>Після публікації — фіксуй у Notion. Головна метрика: DM-in → квалі → Zoom → продаж. Не переглядати, не лайки.</p>
+    <table>
+      <thead><tr><th>Слово</th><th>Варіант</th><th>Продукт</th><th>ЦА</th><th>Опубліковано</th><th>DM-in</th><th>Квалі</th><th>Zoom</th><th>Продаж</th></tr></thead>
+      <tbody id="metrics-body"></tbody>
+    </table>
+  </section>
+
+  <!-- HYPOTHESES -->
+  <section class="hypotheses">
+    <h2>Гіпотези які перевіряємо</h2>
+    <ul>
+      <li data-h="H1">Harmony дає більше DM-in (intrigue &gt; сухий Grand Slam)</li>
+      <li data-h="H2">Hormozi дає вищу Квалі→Продаж (clearer expectations фільтрує на старті)</li>
+      <li data-h="H3">Один продукт ловить різних людей: Harmony — теплі/інтроверти, Hormozi — холодні/вирішальні</li>
+      <li data-h="H4">Найсильніший гачок виявиться у ГОЛОС (Harmony) — бо Іра-ЦА «мовна»</li>
+      <li data-h="H5">ЗІРКИ/ПРОДУКТ (консалтери) покажуть вищий ROI-per-DM ніж психологічні продукти</li>
+    </ul>
+  </section>
+
+  <div class="footer">
+    <p>10 каруселей · 100 JPEG · 1080×1350 · Ink&amp;Amber paper · @yurii_dovhan</p>
+    <p>Створено Claude Code · <a href="dm-keywords.md">dm-keywords.md</a> · <a href="#">EMELI</a></p>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="if(event.target.id==='lightbox')closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <div class="lightbox-inner">
+    <div class="lightbox-title" id="lb-title"></div>
+    <div id="lb-slides"></div>
+    <div class="caption-box" id="lb-caption"></div>
+  </div>
+</div>
+
+<script>
+const carousels = [
+  { variant:'harmony', slug:'slid',     word:'СЛІД',     product:'Персональний звіт клієнту за 20 хв (K1)',    dna:'ПСИХОЛОГ · ОКСАНА' },
+  { variant:'harmony', slug:'golos',    word:'ГОЛОС',    product:'AI-копірайтер у твоєму голосі (K2)',          dna:'КОУЧ · ІРА' },
+  { variant:'harmony', slug:'dzerkalo', word:'ДЗЕРКАЛО', product:'Аналіз власного мовлення у сесії (K3)',       dna:'ПСИХОЛОГ + КОНСАЛТЕР' },
+  { variant:'harmony', slug:'zirky',    word:'ЗІРКИ',    product:'5 ідей продукту з твоїх сесій (K5)',          dna:'КОНСАЛТЕР · АНДРІЙ' },
+  { variant:'harmony', slug:'portret',  word:'ПОРТРЕТ',  product:'Анкета-скринер нового клієнта (K6)',          dna:'ПСИХОЛОГ + КОУЧ' },
+  { variant:'hormozi', slug:'zvit',     word:'ЗВІТ',     product:'PDF клієнту за 20 хв (K1 — Grand Slam)',      dna:'ПСИХОЛОГ · ОКСАНА' },
+  { variant:'hormozi', slug:'pomichnyk',word:'ПОМІЧНИК', product:'AI-копірайтер у твоєму голосі (K2 — GSO)',    dna:'КОУЧ · ІРА' },
+  { variant:'hormozi', slug:'analiz',   word:'АНАЛІЗ',   product:'Аналіз мовлення у сесії (K3 — GSO)',          dna:'ПСИХОЛОГ + КОНСАЛТЕР' },
+  { variant:'hormozi', slug:'produkt',  word:'ПРОДУКТ',  product:'5 ідей продукту з сесій (K5 — GSO)',          dna:'КОНСАЛТЕР · АНДРІЙ' },
+  { variant:'hormozi', slug:'anketa',   word:'АНКЕТА',   product:'Анкета-скринер (K6 — GSO)',                   dna:'ПСИХОЛОГ + КОУЧ' },
+];
+
+function render() {
+  const hGrid = document.getElementById('harmony-grid');
+  const zGrid = document.getElementById('hormozi-grid');
+  const tbody = document.getElementById('metrics-body');
+  carousels.forEach((c, i) => {
+    const preview = `${c.variant}/${c.slug}/slide_01.jpg`;
+    const card = `
+      <div class="card" onclick="openLightbox(${i})">
+        <div class="preview" style="background-image:url('${preview}')"></div>
+        <div class="meta">
+          <div class="code-word">${c.word}</div>
+          <div class="product">${c.product}</div>
+          <div class="dna">${c.dna}</div>
+        </div>
+      </div>`;
+    (c.variant === 'harmony' ? hGrid : zGrid).insertAdjacentHTML('beforeend', card);
+    const cls = c.variant === 'harmony' ? 'harmony-tag' : 'hormozi-tag';
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td class="code">${c.word}</td>
+        <td class="${cls}">${c.variant}</td>
+        <td>${c.product.replace(/\s*\([^)]+\)\s*/,'')}</td>
+        <td>${c.dna}</td>
+        <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+      </tr>`);
+  });
+}
+render();
+
+async function openLightbox(idx) {
+  const c = carousels[idx];
+  document.getElementById('lb-title').innerHTML = `${c.variant.toUpperCase()} · <span class="word">${c.word}</span>`;
+  const slidesDiv = document.getElementById('lb-slides');
+  slidesDiv.innerHTML = '';
+  for (let i = 1; i <= 10; i++) {
+    const num = String(i).padStart(2, '0');
+    slidesDiv.insertAdjacentHTML('beforeend', `<img src="${c.variant}/${c.slug}/slide_${num}.jpg" alt="slide ${num}" loading="lazy">`);
+  }
+  // load text.md for caption preview
+  try {
+    const r = await fetch(`${c.variant}/${c.slug}/text.md`);
+    const txt = await r.text();
+    const captionBlock = txt.split(/\n(?:---+|#{1,4}\s*(?:CAPTION|Caption))/)[1];
+    const hashBlock = txt.match(/(?:^|\n)(#\w[\w\s#]+)$/m);
+    const caption = captionBlock ? captionBlock.trim().replace(/^\s*[\-—]+.*?\n/,'').replace(/^#+.*\n/,'').slice(0, 1800) : 'caption not found';
+    document.getElementById('lb-caption').innerHTML = '<h4>CAPTION ПРЕВ\'Ю</h4>' + caption;
+  } catch (e) {
+    document.getElementById('lb-caption').innerHTML = '<h4>CAPTION</h4>Див. text.md у папці ' + c.variant + '/' + c.slug;
+  }
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  window.scrollTo({top: 0});
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>

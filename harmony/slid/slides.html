@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Harmony carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Oswald:wght@400;500;700&family=Special+Elite&family=Permanent+Marker&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+:root{
+  --paper:#e8dcc4;
+  --paper2:#ddd0b3;
+  --paper-dark:#c8b998;
+  --kraft:#b89968;
+  --ink:#1a1410;
+  --ink-soft:#4a3f33;
+  --mute:#7a6a55;
+  --blood:#b01c20;
+  --blood-dark:#7a1214;
+  --stamp-blue:#1e3a5f;
+  --tobacco:#8b6f47;
+  --amber:#b8722c;
+}
+body{background:#1a1a1a;font-family:'Special Elite',serif}
+.slide{
+  width:1080px;height:1350px;
+  position:relative;overflow:hidden;
+  margin:20px auto;
+  background:var(--paper);
+  color:var(--ink);
+  padding:80px 90px;
+  display:flex;flex-direction:column;
+}
+/* Film grain + halftone overlay */
+.slide::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(0,0,0,0.04), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 45%),
+    repeating-linear-gradient(37deg, rgba(0,0,0,0.03) 0 1px, transparent 1px 3px),
+    repeating-radial-gradient(circle at 50% 50%, rgba(0,0,0,0.06) 0 1px, transparent 1px 7px);
+  mix-blend-mode:multiply;
+  pointer-events:none;
+  z-index:1;
+}
+.slide::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.15) 100%);
+  pointer-events:none;
+  z-index:1;
+}
+.slide > *{position:relative;z-index:2}
+
+/* CASE BAR (top) */
+.case-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:2px solid var(--ink);
+  padding-bottom:18px;margin-bottom:40px;
+  font-family:'Oswald',sans-serif;
+  font-weight:700;letter-spacing:3px;
+  font-size:14px;text-transform:uppercase;
+}
+.case-bar .num{color:var(--blood)}
+.case-bar .right{color:var(--mute);font-size:13px}
+
+/* STAMP */
+.stamp{
+  position:absolute;
+  font-family:'Oswald',sans-serif;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;
+  padding:8px 16px;
+  border:3px double var(--blood);
+  color:var(--blood);
+  background:rgba(176,28,32,0.04);
+  font-size:14px;
+  transform:rotate(-7deg);
+  top:100px;right:60px;z-index:3;
+}
+.stamp.big{font-size:22px;padding:10px 22px;border-width:4px}
+
+/* COVER slide (slide 1) */
+.cover{justify-content:space-between}
+.cover .hook{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:96px;line-height:1.0;
+  letter-spacing:-1px;
+  color:var(--ink);
+  margin-top:40px;
+}
+.cover .hook em{font-style:italic;color:var(--blood)}
+.cover .footer-brand{
+  font-family:'Oswald',sans-serif;
+  font-weight:500;letter-spacing:4px;
+  font-size:18px;text-transform:uppercase;
+  color:var(--ink-soft);
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:2px solid var(--ink);
+  padding-top:20px;
+}
+.cover .footer-brand .slide-num{font-family:'JetBrains Mono',monospace;color:var(--blood)}
+
+/* TEXT slide body */
+.body-text{
+  font-family:'Special Elite',serif;
+  font-size:42px;line-height:1.35;
+  color:var(--ink);
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+}
+.body-text p{margin-bottom:20px}
+.body-text strong{color:var(--blood);font-weight:700}
+
+/* BOLD slide (wau, cta) */
+.big-text{
+  font-family:'Oswald',sans-serif;
+  font-weight:700;
+  font-size:62px;line-height:1.15;
+  letter-spacing:-1px;
+  color:var(--ink);
+  text-transform:uppercase;
+}
+.big-text em{color:var(--blood);font-style:normal;text-decoration:underline;text-decoration-thickness:4px}
+
+/* Quote (slide 3 — dolivno) */
+.quote{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:54px;line-height:1.25;
+  color:var(--ink);
+  border-left:6px solid var(--blood);
+  padding-left:30px;
+  flex:1;display:flex;align-items:center;
+}
+.quote::before{content:"«";font-size:140px;color:var(--blood);position:absolute;top:-20px;left:-10px;font-family:'Playfair Display';opacity:0.3}
+
+/* CTA slide */
+.cta{
+  justify-content:space-between;
+  background:var(--ink);
+  color:var(--paper);
+  padding:80px 90px;
+}
+.cta::before{
+  content:"";position:absolute;inset:20px;
+  border:2px dashed rgba(232,220,196,0.25);
+  z-index:2;
+}
+.cta .directive{
+  font-family:'Oswald',sans-serif;font-weight:500;
+  letter-spacing:4px;text-transform:uppercase;
+  font-size:20px;color:var(--blood);
+  margin-top:40px;
+}
+.cta .code-word{
+  font-family:'Permanent Marker',cursive;
+  font-size:170px;
+  color:var(--blood);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin:40px 0;
+  transform:rotate(-2deg);
+  line-height:0.9;
+}
+.cta .instruction{
+  font-family:'Special Elite',serif;
+  font-size:36px;line-height:1.3;
+  color:var(--paper);
+  margin-bottom:20px;
+}
+.cta .footer-brand{color:rgba(232,220,196,0.75);border-top-color:rgba(232,220,196,0.25)}
+
+/* ZEIGARNIK slide style (5, 8) */
+.zeigarnik .body-text{font-family:'Playfair Display',serif;font-style:italic;font-size:48px}
+.zeigarnik .body-text p:last-child{color:var(--blood);font-weight:700;margin-top:30px}
+
+/* mechanics / list */
+.mech-list{list-style:none;counter-reset:step;padding:0;margin:20px 0}
+.mech-list li{
+  font-family:'Special Elite',serif;
+  font-size:36px;line-height:1.4;
+  padding-left:80px;position:relative;
+  margin-bottom:28px;
+  counter-increment:step;
+}
+.mech-list li::before{
+  content:counter(step);
+  position:absolute;left:0;top:-4px;
+  width:60px;height:60px;
+  background:var(--blood);color:var(--paper);
+  border-radius:50%;
+  font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:34px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* artefact slide — contents list */
+.artefact-list{list-style:none;padding:0;margin:20px 0}
+.artefact-list li{
+  font-family:'Special Elite',serif;
+  font-size:38px;line-height:1.3;
+  padding-left:50px;position:relative;
+  margin-bottom:20px;
+  color:var(--ink);
+}
+.artefact-list li::before{
+  content:"✓";
+  position:absolute;left:0;top:0;
+  color:var(--blood);font-weight:700;
+  font-size:38px;
+}
+
+/* slide-num pill (bottom right) */
+.num-pill{
+  position:absolute;bottom:30px;right:50px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:18px;color:var(--mute);
+  z-index:3;
+}
+</style>
+</head>
+<body>
+
+<div class="slide cover" id="s1">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 01/10</span></div>
+  <div class="hook">Вона йде. Ви забуваєте найважливіше.</div>
+  <div class="footer-brand"><span>@yurii_dovhan</span><span class="slide-num">→ ЛИСТАЙ</span></div>
+</div>
+
+
+<div class="slide" id="s2">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 02/10</span></div>
+  
+  <div class="body-text"><p>Неділя. 22:47.<br>Перед вами — п'ять блокнотів.<br>П'ять імен. П'ять тижнів.<br>Жоден звіт не написаний.<br>Завтра — новий понеділок.</p></div>
+  <div class="num-pill">02 / 10</div>
+</div>
+
+
+<div class="slide" id="s3">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 03/10</span></div>
+  <div class="quote">Я хочу, щоб у неї залишилось щось.<br>Окрім мого голосу.<br>Окрім спогаду про четвер.<br>Але у мене немає двох годин після сесії.</div>
+  <div class="num-pill">03 / 10</div>
+</div>
+
+
+<div class="slide" id="s4">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 04/10</span></div>
+  
+  <div class="body-text"><p>Мине рік.<br>Ви забудете її першу фразу.<br>Третій поворот.<br>Ту метафору про зачинені двері.<br>Вона — теж.<br>Залишиться тільки «нам було добре».<br>Добре — це не результат.</p></div>
+  <div class="num-pill">04 / 10</div>
+</div>
+
+
+<div class="slide zeigarnik" id="s5">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 05/10</span></div>
+  <div class="body-text"><p>А якщо інакше.<br>Клієнтка виходить з Zoom.<br>За 20 хвилин — отримує PDF.<br>Не через три дні.<br>Не «коли буде час».<br>Сьогодні. На телефон.<br>Що б вона там знайшла?</p></div>
+  <div class="num-pill">05 / 10</div>
+</div>
+
+
+<div class="slide" id="s6">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 06/10</span></div>
+  <div class="body-text"><p>Запис сесії. Ви маєте його.<br>Транскрипт. Анонімізація за три хвилини.<br>Помічник читає. Пише звіт.<br>Вашим голосом. Вашою школою.<br>Без шаблону «КПТ для всіх».</p></div>
+  <div class="num-pill">06 / 10</div>
+</div>
+
+
+<div class="slide" id="s7">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 07/10</span></div>
+  <div class="body-text"><p>Десять сторінок у неї в руках.<br>Карта її запиту.<br>Три гіпотези, які ви бачили.<br>Одна вправа під її слова.<br>План на три тижні.<br>Сьогодні ввечері.<br>Не «колись».</p></div>
+  <div class="num-pill">07 / 10</div>
+</div>
+
+
+<div class="slide zeigarnik" id="s8">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 08/10</span></div>
+  <div class="body-text"><p>Це одна деталь.<br>З дванадцяти.<br>Про решту — не тут.<br>Не у публікації.</p></div>
+  <div class="num-pill">08 / 10</div>
+</div>
+
+
+<div class="slide cta" id="s9">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 09/10</span></div>
+  <div>
+    <div class="directive">Я не продаю з поста.</div>
+    <div class="code-word">СЛІД</div>
+    <div class="instruction">Не кидаю лінк у карусель. Кажу більше у переписці. Кому треба — знайде шлях.</div>
+  </div>
+  <div class="footer-brand"><span>@yurii_dovhan</span><span>&nbsp;DM · INSTAGRAM</span></div>
+</div>
+
+
+<div class="slide cta" id="s10">
+  <div class="case-bar"><span class="num">СПРАВА №796</span><span class="right">@yurii_dovhan · 10/10</span></div>
+  <div>
+    <div class="directive">Напишіть у директ одне слово</div>
+    <div class="code-word">СЛІД</div>
+    <div class="instruction">Скажу, де починати.</div>
+  </div>
+  <div class="footer-brand"><span>@yurii_dovhan</span><span>&nbsp;DM · INSTAGRAM</span></div>
+</div>
+</body>
+</html>

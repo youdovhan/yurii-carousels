@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Hormozi carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Oswald:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+:root{
+  --paper:#f4eddc;
+  --paper2:#ebe2cc;
+  --paper-dark:#c8b998;
+  --ink:#1a1410;
+  --ink-soft:#4a3f33;
+  --mute:#7a6a55;
+  --blood:#b01c20;
+  --amber:#b8722c;
+  --amber-dark:#8a5520;
+  --green:#3d7a6e;
+}
+body{background:#1a1a1a;font-family:'IBM Plex Sans',sans-serif}
+.slide{
+  width:1080px;height:1350px;
+  position:relative;overflow:hidden;
+  margin:20px auto;
+  background:var(--paper);
+  color:var(--ink);
+  padding:80px 90px;
+  display:flex;flex-direction:column;
+}
+/* lighter grain than harmony */
+.slide::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 30% 20%, rgba(184,114,44,0.06), transparent 50%),
+    repeating-linear-gradient(37deg, rgba(0,0,0,0.02) 0 1px, transparent 1px 4px);
+  mix-blend-mode:multiply;
+  pointer-events:none;z-index:1;
+}
+.slide > *{position:relative;z-index:2}
+
+/* TOP BAR — minimal brand */
+.top-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:20px;
+  border-bottom:3px solid var(--amber);
+  margin-bottom:40px;
+  font-family:'Oswald',sans-serif;
+  font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  font-size:14px;color:var(--ink-soft);
+}
+.top-bar .brand{color:var(--amber-dark);font-weight:700}
+.top-bar .num{font-family:'JetBrains Mono',monospace;color:var(--blood)}
+
+/* COVER */
+.cover{justify-content:space-between}
+.cover .kicker{
+  font-family:'Oswald',sans-serif;font-weight:500;
+  letter-spacing:4px;text-transform:uppercase;
+  font-size:24px;color:var(--amber-dark);
+  margin-top:40px;margin-bottom:30px;
+}
+.cover .headline{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:84px;line-height:1.05;
+  letter-spacing:-2px;
+  color:var(--ink);
+}
+.cover .headline em{color:var(--blood);font-style:normal;background:rgba(176,28,32,0.08);padding:0 12px}
+.cover .sub{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:400;
+  font-size:32px;line-height:1.3;
+  color:var(--ink-soft);
+  margin-top:30px;
+  max-width:85%;
+}
+.cover .footer-brand{
+  font-family:'JetBrains Mono',monospace;
+  font-size:18px;color:var(--ink-soft);
+  display:flex;justify-content:space-between;
+  border-top:2px solid var(--ink);
+  padding-top:20px;
+  margin-top:40px;
+}
+
+/* H2 slide title */
+.slide-title{
+  font-family:'Oswald',sans-serif;
+  font-weight:700;
+  font-size:46px;line-height:1.1;
+  text-transform:uppercase;
+  letter-spacing:-0.5px;
+  color:var(--ink);
+  margin-bottom:40px;
+}
+.slide-title::before{
+  content:"";display:block;
+  width:120px;height:6px;
+  background:var(--blood);margin-bottom:24px;
+}
+
+/* body content */
+.content{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:36px;line-height:1.4;
+  color:var(--ink);
+}
+.content p{margin-bottom:20px}
+.content strong{color:var(--blood);font-weight:700}
+
+/* bullet list — for avatar / problems / bonuses */
+.bullets{list-style:none;padding:0;margin:20px 0}
+.bullets li{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:32px;line-height:1.3;
+  padding:16px 0 16px 60px;position:relative;
+  border-bottom:1px solid rgba(26,20,16,0.1);
+  color:var(--ink);
+}
+.bullets li::before{
+  content:"✓";
+  position:absolute;left:0;top:16px;
+  color:var(--amber-dark);font-weight:700;
+  font-size:36px;
+}
+.bullets.problems li::before{content:"▸";color:var(--blood)}
+.bullets.bonuses li::before{content:"→";color:var(--amber-dark);font-family:'Oswald',sans-serif;font-weight:700}
+
+/* numbered steps */
+.steps{list-style:none;padding:0;margin:20px 0;counter-reset:step}
+.steps li{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:32px;line-height:1.35;
+  padding:24px 0 24px 100px;position:relative;
+  border-bottom:1px solid rgba(26,20,16,0.1);
+  counter-increment:step;
+}
+.steps li::before{
+  content:"0" counter(step);
+  position:absolute;left:0;top:18px;
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;font-size:42px;
+  color:var(--blood);
+}
+
+/* big stat */
+.big-stat{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:110px;line-height:1.0;
+  color:var(--blood);
+  letter-spacing:-3px;
+  margin:30px 0 10px 0;
+}
+.big-stat-label{
+  font-family:'Oswald',sans-serif;font-weight:500;
+  letter-spacing:3px;text-transform:uppercase;
+  font-size:22px;color:var(--ink-soft);
+  margin-bottom:30px;
+}
+
+/* scene / dream result */
+.scene{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:40px;line-height:1.3;
+  color:var(--ink);
+  padding:40px;
+  background:rgba(184,114,44,0.08);
+  border-left:6px solid var(--amber);
+}
+
+/* CTA slide */
+.cta{
+  justify-content:space-between;
+  background:var(--ink);
+  color:var(--paper);
+  padding:80px 90px;
+}
+.cta .top-bar{border-bottom-color:var(--amber);color:rgba(244,237,220,0.7)}
+.cta .top-bar .brand{color:var(--amber)}
+.cta .directive{
+  font-family:'Oswald',sans-serif;font-weight:500;
+  letter-spacing:4px;text-transform:uppercase;
+  font-size:24px;color:var(--amber);
+  margin-top:30px;margin-bottom:20px;
+}
+.cta .code-word{
+  font-family:'Permanent Marker',cursive;
+  font-size:180px;
+  color:var(--blood);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin:30px 0;
+  transform:rotate(-2deg);
+  line-height:0.9;
+}
+.cta .instruction{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:36px;line-height:1.35;
+  color:var(--paper);
+  margin-bottom:20px;
+}
+.cta .footer-brand{
+  color:rgba(244,237,220,0.7);
+  border-top:2px solid rgba(244,237,220,0.25);
+  padding-top:20px;margin-top:40px;
+  font-family:'JetBrains Mono',monospace;font-size:18px;
+  display:flex;justify-content:space-between;
+}
+</style>
+</head>
+<body>
+
+<div class="slide cover" id="s1">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 01/10</span></div>
+  <div>
+    <div class="kicker">Для психологів, коучів, консалтерів</div>
+    <h1 class="headline"><em>Заголовок:</em></h1>
+    <p class="sub">Перша сесія: знаєш 80% про клієнтку ще до того як вона зайшла на Zoom  <em>Підзаголовок:</em> Система-анкета для психологинь і коучинь з 20-40% нових клієнтів на місяць. За 5 хвилин перед сесією — ти вже в контексті.</p>
+  </div>
+  <div class="footer-brand"><span>@yurii_dovhan</span><span>→ ЛИСТАЙ</span></div>
+</div>
+
+
+<div class="slide" id="s2">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 02/10</span></div>
+  <h2 class="slide-title">Це для вас якщо</h2>
+  <ul class="bullets "><li>20-40% ваших клієнтів — нові кожен місяць (діаспора, перезапуск, перші звернення)</li><li>Перша сесія на 40% — це розпитування "розкажіть про себе"</li><li>Клієнтка на 2-й сесії повторює історію, яку вже писала вам у першому листі</li><li>Ви читаєте попередню листування 15 хв перед кожною сесією. Щодня.</li></ul>
+  <div class="num-pill">02 / 10</div>
+</div>
+
+
+<div class="slide" id="s3">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 03/10</span></div>
+  <h2 class="slide-title">Знайоме?</h2>
+  <ul class="bullets problems"><li>Перша сесія 60 хв: 25 хв — "розкажіть про себе", 15 хв — слухаєте контекст, 20 хв — на реальну роботу</li><li>Клієнтка пише другий раз: "я про це вже говорила у першому листі" — ви не пам'ятаєте деталі</li><li>Конверсія у другу сесію низька: "Корисно, але не знаю чи продовжу"</li><li>Перед кожною сесією — 15 хв на перечитування листування. Щодня. Це 60-90 хв/тиждень просто на "згадати хто це".</li><li>Нові клієнти приходять з підготовки в голові, а ви — з чистого аркуша</li></ul>
+  <div class="num-pill">03 / 10</div>
+</div>
+
+
+<div class="slide" id="s4">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 04/10</span></div>
+  <h2 class="slide-title">СЦЕНА</h2>
+  <div class="content"><div class="scene"><p><strong>Заголовок:</strong> Четвер. 18:55. Zoom через 5 хвилин.<br>Ви відкриваєте портрет клієнтки.<br>2 сторінки. Її запит. Її тригерні слова. Її страхи.<br>Її попередній досвід терапії. Її метафори.<br>19:00 — вона заходить.<br>Ви: "Читала вас. Дивіться — у першу чергу хочу запитати про ось ці два моменти."<br>Вона видихає.<br>Ви вже на сесії. Не на інтерв'ю.</p></div></div>
+  <div class="num-pill">04 / 10</div>
+</div>
+
+
+<div class="slide" id="s5">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 05/10</span></div>
+  <h2 class="slide-title">Як це працює</h2>
+  <div class="content"><ol class="steps"><li><strong>Заголовок:</strong> 3 кроки. Без технарства.</li><li>Клієнт отримує лінк на Typeform (шаблон — у нас). 10 питань. 3-5 хвилин.</li><li>Промпт-помічник перетворює її відповіді у портрет. 2 сторінки. Її словами, не шаблонними.</li><li>Ви читаєте 3 хвилини перед сесією. І вже у контексті — як після 3-ї сесії з нею.</li></ol></div>
+  <div class="num-pill">05 / 10</div>
+</div>
+
+
+<div class="slide" id="s6">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 06/10</span></div>
+  <h2 class="slide-title">Коли перший результат</h2>
+  <ul class="bullets "><li>Налаштування системи — 60 хвилин одного вечора</li><li>Перший портрет — наступного тижня, коли прийде нова клієнтка</li><li>Економія на першу сесію — 15-25 хвилин з кожного нового клієнта</li><li>4 нових клієнта/місяць × 20 хв = 80 хвилин/місяць повернуто. Це одна додаткова сесія.</li><li>Через 6 місяців — ви не згадаєте як жили без цього</li></ul>
+  <div class="num-pill">06 / 10</div>
+</div>
+
+
+<div class="slide" id="s7">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 07/10</span></div>
+  <h2 class="slide-title">Що входить</h2>
+  <ul class="bullets bonuses"><li>Typeform-шаблон "Анкета перед першою сесією" — 10 питань, які не лякають клієнта</li><li>Промпт-помічник "Портрет клієнта" — генерує 2 сторінки її мовою, не шаблонною</li><li>Email-шаблон, який надсилається з лінком на анкету (копія-паста, підставили ім'я)</li><li>Чек-лист "що питати НЕ варто у формі" — щоб не сполохати і не відштовхнути</li><li>Live-налаштування зі мною — 45 хвилин Zoom, зробимо під вашу нішу</li></ul>
+  <div class="num-pill">07 / 10</div>
+</div>
+
+
+<div class="slide" id="s8">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 08/10</span></div>
+  <h2 class="slide-title">Доказ з практики</h2>
+  <ul class="bullets "><li>Перша сесія з новим клієнтом: 30% розпитування замість 50%</li><li>Конверсія у другу сесію: +12%</li><li>Клієнти пишуть: "відчувалось що ви готувались, це було приємно" Дані — січень-квітень 2026. Моя власна практика.</li></ul>
+  <div class="num-pill">08 / 10</div>
+</div>
+
+
+<div class="slide" id="s9">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 09/10</span></div>
+  <h2 class="slide-title">ЧЕСНА</h2>
+  <div class="content"><p><strong>Заголовок:</strong> 10 людей. Цього тижня.<br>Беру 10 людей на live-налаштування.<br>45-хвилинні Zoom-слоти — обмежені цим тижнем.<br>Далі залишається шаблон + інструкції, але без live-супроводу.<br>З live ви робите це за вечір.<br>Без live — за два-три вечори, з питаннями "а чи я правильно".</p></div>
+  <div class="num-pill">09 / 10</div>
+</div>
+
+
+<div class="slide cta" id="s10">
+  <div class="top-bar"><span class="brand">@yurii_dovhan</span><span class="num">СПРАВА №321 · 10/10</span></div>
+  <div>
+    <div class="directive">Заголовок: Одне слово у директ.</div>
+    <div class="code-word">АНКЕТА</div>
+    <div class="instruction">Напишіть мені в DM одне слово: Пришлю реальний портрет клієнта (анонімний, з дозволом). Побачите як це виглядає на 2 сторінках — і вирішите чи вам. @yurii_dovhan → DM → АНКЕТА</div>
+  </div>
+  <div class="footer-brand"><span>@yurii_dovhan</span><span>&nbsp;DM · INSTAGRAM</span></div>
+</div>
+</body>
+</html>
