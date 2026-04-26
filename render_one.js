@@ -354,7 +354,7 @@ function renderV2Slide(s, idx, total) {
         while ((nm = numBlockRe.exec(body)) !== null) {
           polaroids.push({
             num: nm[1].padStart(2,'0'),
-            note: (nm[2].trim() + '<br>' + nm[3].trim()).replace(/\*\*/g,''),
+            note: (nm[2].trim() + '\n' + nm[3].trim()).replace(/\*\*/g,''),
             r: (parseInt(nm[1]) % 2 === 0) ? 1.5 : -2
           });
         }
@@ -380,7 +380,7 @@ function renderV2Slide(s, idx, total) {
       <article class="polaroid" style="--r:${p.r}deg">
         <div class="photo"></div>
         <span class="num">${p.num}</span>
-        <p class="note">${v2Markup(p.note)}</p>
+        <p class="note">${v2Markup(p.note).replace(/\n/g,'<br>')}</p>
       </article>`).join('')}
   </div>
   ${foot ? `<div class="board-foot">${v2Markup(foot.replace(/\*\*/g,''))}</div>` : ''}
@@ -444,9 +444,10 @@ function renderV2Slide(s, idx, total) {
       const label = extractDirective(body, 'LABEL') || `ДОКАЗ · СТАТИСТИКА`;
       let big = extractDirective(body, 'BIG FIGURE', 'BIG NUMBER', 'BIG');
       if (!big) {
-        // пробуємо знайти число у форматі "X → Y" або "X × Y" або "$X"
-        const bm = body.match(/(\d+\s*(?:[→×x]\s*\d+)?(?:\s*=\s*[\$€]?\s*[\d\s]+)?)/);
-        big = bm ? bm[1] : '—';
+        // шукаємо формат "X → Y" або "X × Y" спочатку (ігноруємо числа в ДОКАЗ №N)
+        const bm = body.match(/(?:^|\n)\s*\*?\*?(\d+\s*(?:[→×x]\s*\d+)(?:\s*=\s*[\$€]?\s*[\d\s]+)?)\*?\*?/m)
+                || body.match(/(?:^|\n)\s*\*?\*?([\$€][\d\s,]+(?:\s*=\s*[\$€]?\s*[\d\s]+)?)\*?\*?/m);
+        big = bm ? bm[1].trim() : '—';
       }
       // обробка: "30 × $60" → з em для × та "= $1 800" з equals
       const bigHtml = big
@@ -503,9 +504,9 @@ function renderV2Slide(s, idx, total) {
         if (bLines[0] && /БУЛО|Was|Before/i.test(bLines[0])) bLines.shift();
         if (aLines[0] && /СТАЛО|Now|After/i.test(aLines[0])) aLines.shift();
         beforeH3 = bLines[0] || '';
-        beforeBody = bLines.slice(1).join('<br>');
+        beforeBody = bLines.slice(1).join('\n');
         afterH3 = aLines[0] || '';
-        afterBody = aLines.slice(1).join('<br>');
+        afterBody = aLines.slice(1).join('\n');
       } else if (beforeBlock && afterBlock) {
         const b = parseCol(beforeBlock[0]);
         const a = parseCol(afterBlock[0]);
