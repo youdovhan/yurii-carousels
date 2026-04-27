@@ -17,7 +17,7 @@ import urllib.request
 import urllib.parse
 from pathlib import Path
 
-BOT_TOKEN = "REDACTED_BOT_TOKEN"
+BOT_TOKEN = os.environ["EMELI_ADMIN_BOT_TOKEN"]
 CHAT_ID = "719023789"
 API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 ROOT = Path(__file__).parent

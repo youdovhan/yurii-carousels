@@ -12,13 +12,14 @@ tg_listener.py — слухає @emeli_admin_bot, ловить нові пові
 """
 
 import json
+import os
 import time
 import sys
 import urllib.request
 import urllib.error
 from pathlib import Path
 
-BOT = "REDACTED_BOT_TOKEN"
+BOT = os.environ["EMELI_ADMIN_BOT_TOKEN"]
 ALLOWED_CHAT = 719023789  # Юрій
 API = f"https://api.telegram.org/bot{BOT}"
 ROOT = Path(__file__).parent
