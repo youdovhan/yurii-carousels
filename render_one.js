@@ -75,6 +75,13 @@ const caseNum = String(Math.floor(Math.random() * 900) + 100); // 100-999
 // =================================================================
 // ============ V2 PARSER + RENDERER ===============================
 // =================================================================
+// Whitelist of known layouts — anything else is rejected
+const KNOWN_LAYOUTS = new Set([
+  'case-file-cover','statement-card','evidence-board','field-notes',
+  'quote-pull','data-card','comparison-split','redacted-text',
+  'case-closed','cliff-hanger'
+]);
+
 function parseV2(src) {
   // ## Slide N [layout: xxx] OR ### Слайд N - `layout` OR ## СЛАЙД N · `layout`
   const slides = [];
@@ -89,7 +96,23 @@ function parseV2(src) {
   let m;
   while ((m = headerRe.exec(norm)) !== null) {
     const num = parseInt(m[1]);
-    const layout = (m[2] || m[3] || '').trim().toLowerCase();
+    let layout = (m[2] || m[3] || '').trim().toLowerCase();
+    const labelText = (m[4] || '').toLowerCase();
+    // BUG FIX: if extracted layout is not in whitelist, scan label tail for a known one.
+    // Catches cases like "### Слайд 1 — COVER · case-file-cover · Reverse Expectation"
+    // where regex grabs first lowercase token (cover) instead of real layout.
+    if (!KNOWN_LAYOUTS.has(layout)) {
+      let found = '';
+      for (const known of KNOWN_LAYOUTS) {
+        if (labelText.includes(known) || (m[3] || '').toLowerCase() === known) { found = known; break; }
+      }
+      // also peek label tail (m[4]) in original case — some layouts in `backticks`
+      if (!found) {
+        const bt = (m[4] || '').match(/`([a-z\-]+)`/i);
+        if (bt && KNOWN_LAYOUTS.has(bt[1].toLowerCase())) found = bt[1].toLowerCase();
+      }
+      layout = found;
+    }
     headers.push({ num, layout, start: m.index, headerEnd: m.index + m[0].length, label: (m[4] || '').trim() });
   }
 
@@ -261,7 +284,8 @@ function extractDirective(body, ...keys) {
     }
     if (collected.length) {
       const joined = collected.join('\n').trim();
-      return joined.replace(/^[«"']|[»"']$/g, '').replace(/^\*\*|\*\*$/g, '').trim();
+      // strip ALL ** (not just edges) — fixes "**15**\nсторінок" → "15\nсторінок"
+      return joined.replace(/^[«"']|[»"']$/g, '').replace(/\*\*/g, '').trim();
     }
   }
   return null;
@@ -335,8 +359,9 @@ function renderV2Slide(s, idx, total) {
 
     case 'evidence-board': {
       const label = extractDirective(body, 'LABEL') || `ДОКАЗИ · ${num}`;
-      // знаходимо POLAROID-блоки
-      const polaroidRe = /(?:POLAROID|polaroid)\s*(\d+)([^\n]*)\n([\s\S]*?)(?=(?:POLAROID|polaroid)\s*\d|FOOT|\[(?:label|polaroid)|$)/g;
+      // ASCII-style fallback: `[polaroid 01]` — only matches when surrounded by literal brackets,
+      // so it does NOT collide with `**Polaroid 01**` directive style (which is handled by cardRe below).
+      const polaroidRe = /\[polaroid\s*(\d+)\]([^\n]*)\n([\s\S]*?)(?=\[polaroid|\[label|FOOT|$)/gi;
       const polaroids = [];
       let pm;
       while ((pm = polaroidRe.exec(body)) !== null) {
@@ -346,6 +371,24 @@ function renderV2Slide(s, idx, total) {
         const rotMatch = pm[2].match(/rotate\s*([\-\d\.]+)\s*deg/i);
         const r = rotMatch ? parseFloat(rotMatch[1]) : (pm[1] % 2 === 0 ? 1.5 : -2);
         polaroids.push({ num: numStr.replace(/\*\*/g,''), note: note.replace(/<br>/g,' ').replace(/\*\*/g,''), r });
+      }
+      // PATTERN 1.5: **CARD/КАРТА/POLAROID NN [(spec)][:]**\nLine1\nLine2[\nLine3][\nLine4]
+      // Note: ':' may be INSIDE the bold markers ("**Polaroid 01 (rotate -2deg):**"), not after.
+      if (polaroids.length === 0) {
+        const cardRe = /\*\*(?:CARD|КАРТА|КАРТКА|POLAROID)\s*(\d+)(?:\s*\([^)]*\))?\s*[:：]?\s*\*\*\s*\n([^\n]+)(?:\n([^\n]+))?(?:\n([^\n]+))?(?:\n([^\n]+))?/gi;
+        let cm;
+        while ((cm = cardRe.exec(body)) !== null) {
+          const numStr = String(cm[1]).padStart(2,'0');
+          // 4 content capture groups (cm[2]..cm[5])
+          const rawParts = [(cm[2]||'').trim(), (cm[3]||'').trim(), (cm[4]||'').trim(), (cm[5]||'').trim()]
+            .filter(s => s.length > 0)
+            .filter(s => !/^\*?\*?\d{1,2}\*?\*?$/.test(s));  // drop "**01**" duplicate-of-num lines
+          polaroids.push({
+            num: numStr,
+            note: rawParts.join('\n').replace(/\*\*/g,'').replace(/^\*|\*$/gm,''),
+            r: (parseInt(cm[1]) % 2 === 0) ? 1.5 : -2
+          });
+        }
       }
       // fallback: парсимо нумеровані блоки "01 ... 02 ... 03"
       if (polaroids.length === 0) {
@@ -371,14 +414,15 @@ function renderV2Slide(s, idx, total) {
         }
       }
       const foot = extractDirective(body, 'FOOT', 'BOARD-FOOT', 'FOOTER');
-      const colsClass = polaroids.length === 5 ? 'cols-5' : polaroids.length === 2 ? 'cols-2' : '';
+      const colsClass = polaroids.length === 5 ? 'cols-5'
+                       : polaroids.length === 4 ? 'cols-4'
+                       : polaroids.length === 2 ? 'cols-2' : '';
       return `
 <section class="slide" data-layout="evidence-board" id="s${num}">
   <span class="slide-label">${v2Markup(label.replace(/\*\*/g,''))}</span>
   <div class="board ${colsClass}">
     ${polaroids.map(p => `
       <article class="polaroid" style="--r:${p.r}deg">
-        <div class="photo"></div>
         <span class="num">${p.num}</span>
         <p class="note">${v2Markup(p.note).replace(/\n/g,'<br>')}</p>
       </article>`).join('')}
@@ -450,10 +494,12 @@ function renderV2Slide(s, idx, total) {
         big = bm ? bm[1].trim() : '—';
       }
       // обробка: "30 × $60" → з em для × та "= $1 800" з equals
+      // line-break перед "=" коли формула трирядкова (a × b = c) — щоб не оверфлоувати
       const bigHtml = big
+        .replace(/\*\*/g, '')                    // strip markdown bold ** (was leaking into HTML)
         .replace(/\s*→\s*/g, '<em>→</em>')
         .replace(/\s*[×x]\s*/g, '<em>×</em>')
-        .replace(/\s*=\s*/g, '<em class="equals">=</em>');
+        .replace(/\s*=\s*/g, '<br><em class="equals">=</em>');
       const unit = extractDirective(body, 'UNIT');
       const context = extractDirective(body, 'CONTEXT');
       const source = extractDirective(body, 'SOURCE');
@@ -471,53 +517,59 @@ function renderV2Slide(s, idx, total) {
     }
 
     case 'comparison-split': {
-      // шукаємо COL LEFT / COL RIGHT або БУЛО / СТАЛО блоки
-      const beforeBlock = body.match(/(?:COL\s*LEFT|БУЛО)[\s\S]*?(?=COL\s*RIGHT|СТАЛО|$)/i);
-      const afterBlock = body.match(/(?:COL\s*RIGHT|СТАЛО)[\s\S]*$/i);
+      // REWRITE: strip directive markers, split on СТАЛО/AFTER/NOW boundary.
+      // Tolerant to formats: "**BEFORE LABEL:** БУЛО / **H3:** Title / body..." or
+      // "БУЛО\nTitle\nbody..." or separator "—" between halves.
+      const cleaned = body
+        .replace(/\*\*(?:BEFORE\s*LABEL|AFTER\s*LABEL|COL\s*LEFT|COL\s*RIGHT|H3|HEADLINE|BODY|HEAD|LABEL)\s*[:：]?\s*\*\*\s*/gi, '')
+        .replace(/\*\*/g, '')
+        .replace(/\r/g, '');
 
-      const parseCol = (txt) => {
-        if (!txt) return { label:'', h3:'', body:'' };
-        const labelM = txt.match(/(?:LABEL|^[—\-•]\s*)\s*[:：]?\s*([^\n]+)/);
-        const h3M = txt.match(/(?:H3|HEADLINE|^)\s*\(?[^)]*\)?\s*[:：]\s*([^\n]+)/);
-        const bodyM = txt.match(/(?:BODY|^)\s*\(?[^)]*\)?\s*[:：]\s*([\s\S]+)/);
-        return {
-          label: (labelM ? labelM[1] : '').trim(),
-          h3: (h3M ? h3M[1] : '').trim(),
-          body: (bodyM ? bodyM[1] : '').trim().split('\n')[0]
-        };
-      };
-
-      // simpler fallback: шукаємо БУЛО {...} СТАЛО {...}
       let beforeLabel = 'БУЛО', afterLabel = 'СТАЛО';
       let beforeH3 = '', afterH3 = '';
       let beforeBody = '', afterBody = '';
 
-      // парсимо стиль text_v2 (golos format):
-      // БУЛО\nПост. 50 хв\nЯк у всіх\n\n—\n\nСТАЛО\nПост. 7 хв\n...
-      const sepIdx = body.search(/^[—\-]+$/m);
-      if (sepIdx > 0) {
-        const beforePart = body.slice(0, sepIdx).trim();
-        const afterPart = body.slice(sepIdx).replace(/^[—\-]+\s*\n?/m, '').trim();
-        // beforePart: первая line з "БУЛО" або lable, потом content
-        const bLines = beforePart.split('\n').map(l => l.trim()).filter(l => l.length);
-        const aLines = afterPart.split('\n').map(l => l.trim()).filter(l => l.length);
-        if (bLines[0] && /БУЛО|Was|Before/i.test(bLines[0])) bLines.shift();
-        if (aLines[0] && /СТАЛО|Now|After/i.test(aLines[0])) aLines.shift();
-        beforeH3 = bLines[0] || '';
-        beforeBody = bLines.slice(1).join('\n');
-        afterH3 = aLines[0] || '';
-        afterBody = aLines.slice(1).join('\n');
-      } else if (beforeBlock && afterBlock) {
-        const b = parseCol(beforeBlock[0]);
-        const a = parseCol(afterBlock[0]);
-        beforeLabel = b.label || beforeLabel;
-        afterLabel = a.label || afterLabel;
-        beforeH3 = b.h3;
-        afterH3 = a.h3;
-        beforeBody = b.body;
-        afterBody = a.body;
+      // Try to split on СТАЛО / AFTER / NOW marker line (or inline marker)
+      // NOTE: \b doesn't work with Cyrillic in JS regex (no /u flag) — use explicit \s/$ boundary
+      const splitRe = /(?:^|\n)\s*(СТАЛО|AFTER|NOW)\s*(?:\n|$)/i;
+      const splitMatch = cleaned.match(splitRe);
+
+      let beforeRaw = '', afterRaw = '';
+      if (splitMatch) {
+        const idx = splitMatch.index;
+        beforeRaw = cleaned.slice(0, idx);
+        afterRaw = cleaned.slice(idx + splitMatch[0].length);
       } else {
-        // last fallback: bullets
+        // fallback: separator line "—"
+        const sepIdx = cleaned.search(/^[—\-]+$/m);
+        if (sepIdx > 0) {
+          beforeRaw = cleaned.slice(0, sepIdx);
+          afterRaw = cleaned.slice(sepIdx).replace(/^[—\-]+\s*\n?/m, '');
+        } else {
+          beforeRaw = cleaned;
+        }
+      }
+
+      // Drop noise lines: empty, markers, separators, spec/meta lines that should never be content
+      const cleanLines = (raw) => raw.split('\n')
+        .map(l => l.trim())
+        .filter(l => l.length > 0)
+        .filter(l => !/^(?:БУЛО|BEFORE|WAS|СТАЛО|AFTER|NOW)\s*$/i.test(l))
+        .filter(l => !/^[\-—=_]{3,}\s*$/.test(l))
+        .filter(l => !/^Layout\s*[:：]/i.test(l))           // "Layout: comparison-split" spec
+        .filter(l => !/^[\*]*Layout[\*]*\s*[:：]/i.test(l)) // "**Layout:**"
+        .filter(l => !/^`[a-z\-]+`\s*$/.test(l));           // "`comparison-split`" alone
+
+      const bLines = cleanLines(beforeRaw);
+      const aLines = cleanLines(afterRaw);
+
+      beforeH3 = bLines[0] || '';
+      beforeBody = bLines.slice(1).join('\n');
+      afterH3 = aLines[0] || '';
+      afterBody = aLines.slice(1).join('\n');
+
+      // Last-resort: if both empty, use bullets
+      if (!beforeH3 && !afterH3) {
         const bullets = extractBullets(body);
         if (bullets.length >= 2) {
           beforeBody = bullets[0];
@@ -577,22 +629,47 @@ function renderV2Slide(s, idx, total) {
 
     case 'case-closed': {
       const directive = extractDirective(body, 'DIRECTIVE') || 'НАПИШИ В ДИРЕКТ:';
-      // code-word: явний CODE-WORD або жирне ВЕЛИКЕ слово
-      let cw = extractDirective(body, 'CODE-WORD STAMP', 'CODE-WORD', 'CODEWORD');
-      if (cw) cw = cw.replace(/\*\*/g,'').replace(/[«"']/g,'').trim();
-      if (!cw) {
-        const cwm = body.match(/\*\*([А-ЯҐЄІЇ]{3,})\*\*/);
-        cw = cwm ? cwm[1] : codeWord;
+      // code-word resolution — multi-layer fallback (avoid grabbing БУЛО from comparison-split)
+      let cw = extractDirective(body, 'CODE-WORD STAMP', 'CODE-WORD', 'CODEWORD', 'CODE WORD');
+      if (cw) {
+        cw = cw.replace(/[\*#═║╔╗╚╝│]/g,'').replace(/[«"']/g,'').trim().split('\n')[0].trim();
       }
+      // markdown heading: "# АНАЛІЗ"
+      if (!cw) {
+        const hm = body.match(/^#{1,4}\s+([А-ЯҐЄІЇ]{3,})\s*$/m);
+        if (hm) cw = hm[1];
+      }
+      // ASCII-art frame: ║ АНКЕТА ║ or │ WORD │
+      if (!cw) {
+        const am = body.match(/[║│]\s*([А-ЯҐЄІЇ]{3,})\s*[║│]/);
+        if (am) cw = am[1];
+      }
+      // bold cyrillic word — but skip generic markers like БУЛО/СТАЛО/CASE
+      if (!cw) {
+        const cwm = body.match(/\*\*([А-ЯҐЄІЇ]{3,})\*\*/g);
+        if (cwm) {
+          for (const candidate of cwm) {
+            const word = candidate.replace(/\*\*/g,'');
+            if (!/^(БУЛО|СТАЛО|CASE|ЗАКРИТО|ДОСЬЄ)$/.test(word)) { cw = word; break; }
+          }
+        }
+      }
+      // ultimate fallback: slug uppercase (latin → won't be cyrillic but better than БУЛО)
+      if (!cw) cw = codeWord;
+
       const instruction = extractDirective(body, 'INSTRUCTION');
-      // STAKE block (Hormozi)
-      const stakeM = body.match(/(?:STAKE|СТАВКА)[\s\S]+?(?=─{3,}|SEAL|JD\s*·|$)/i);
+      // STAKE block (Hormozi) — aggressive markdown cleanup
+      const stakeM = body.match(/(?:STAKE|СТАВКА)[\s\S]+?(?=\*\*Seal|^Seal|JD\s*·|@yurii|─{3,}|$)/im);
       let stakeText = '';
       if (stakeM) {
         stakeText = stakeM[0]
-          .replace(/^(?:STAKE|СТАВКА|stake-block|─+)\s*[—\-]*\s*\n?/i,'')
+          .replace(/\*\*Seal[\s\S]*$/i, '')
+          .replace(/^[\*#]*\s*(?:STAKE|СТАВКА|stake-block)[:：]?[\*#]*\s*\n?/i,'')
           .replace(/^─+\s*СТАВКА\s*─+\s*\n?/im,'')
           .replace(/─+/g,'')
+          .replace(/\*\*/g,'')                  // strip ALL bold markers
+          .replace(/^\s*[:：]\s*$/gm, '')        // strip orphan ":"
+          .replace(/^\s*$\n/gm, '\n')           // collapse multiple blank lines
           .trim();
       }
       const seal = extractDirective(body, 'SEAL') || 'JD · 2026 · @yurii_dovhan';

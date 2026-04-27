@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>V2 — Premium · Dashboard · @yurii_dovhan</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --smoke:#2B2522;
+  --ivory:#F7F3EC;
+  --amber:#8B5A2B;
+  --blood:#5C1A1B;
+  --sage:#6B7355;
+  --paper:#FBF8F3;
+  --slate:#3D3A36;
+  --font-serif:'IBM Plex Serif',Georgia,serif;
+  --font-sans:'IBM Plex Sans',-apple-system,sans-serif;
+  --font-mono:'IBM Plex Mono','Courier New',monospace;
+  /* DARK as default */
+  --bg:var(--smoke);
+  --bg-card:#332B27;
+  --fg:var(--ivory);
+  --fg-mute:#9C928A;
+  --border:rgba(247,243,236,0.12);
+  --accent:var(--amber);
+  --drama:#A8333B;
+  --label:var(--amber);
+}
+body.light{
+  --bg:var(--ivory);
+  --bg-card:var(--paper);
+  --fg:var(--smoke);
+  --fg-mute:var(--slate);
+  --border:rgba(43,37,34,0.12);
+  --accent:var(--amber);
+  --drama:var(--blood);
+  --label:var(--blood);
+}
+html,body{
+  font-family:var(--font-sans);
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.5;
+  scroll-behavior:smooth;
+}
+body{
+  position:relative;
+  min-height:100vh;
+  transition:background 0.3s ease,color 0.3s ease;
+}
+/* Grain texture 5% opacity */
+body::before{
+  content:"";position:fixed;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/></svg>");
+  pointer-events:none;z-index:9999;mix-blend-mode:overlay;opacity:0.5;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--drama)}
+
+.shell{max-width:1480px;margin:0 auto;padding:48px 36px 100px}
+
+/* === TOP BAR === */
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:24px;border-bottom:1px solid var(--border);
+  margin-bottom:64px;
+  font-family:var(--font-mono);font-size:13px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--fg-mute);
+}
+.topbar .crumb span{color:var(--accent)}
+.topbar .controls{display:flex;gap:18px;align-items:center}
+.toggle-btn{
+  background:transparent;border:1px solid var(--border);
+  color:var(--fg);padding:8px 16px;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0.15em;
+  text-transform:uppercase;cursor:pointer;
+  transition:all 0.2s ease;
+}
+.toggle-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* === HERO === */
+.hero{
+  display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:80px;
+  margin-bottom:96px;align-items:end;
+}
+.hero .case-num{
+  font-family:var(--font-mono);font-size:13px;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--label);margin-bottom:24px;
+  display:inline-block;border:1.5px solid var(--label);
+  padding:6px 14px;transform:rotate(-1.5deg);
+}
+.hero h1{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:84px;line-height:1.05;letter-spacing:-0.02em;
+  color:var(--fg);margin-bottom:28px;
+}
+.hero h1 em{font-style:italic;color:var(--drama)}
+.hero h1 strong{font-weight:700;color:var(--accent);font-style:normal}
+.hero .subtitle{
+  font-family:var(--font-sans);font-weight:500;
+  font-size:22px;line-height:1.5;color:var(--fg-mute);
+  max-width:680px;
+}
+.hero .subtitle b{color:var(--fg);font-weight:600}
+.hero-meta{
+  border-left:2px solid var(--accent);padding-left:24px;
+  font-family:var(--font-mono);font-size:13px;
+  letter-spacing:0.15em;color:var(--fg-mute);
+  display:flex;flex-direction:column;gap:14px;
+}
+.hero-meta .row{display:flex;justify-content:space-between;gap:18px}
+.hero-meta .row span:first-child{color:var(--accent)}
+.hero-meta .row span:last-child{color:var(--fg);text-align:right}
+
+/* === SECTION HEADERS === */
+.section{margin-bottom:96px}
+.section-head{
+  border-bottom:1px solid var(--border);
+  padding-bottom:18px;margin-bottom:36px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  gap:24px;flex-wrap:wrap;
+}
+.section-head .num{
+  font-family:var(--font-mono);font-size:13px;
+  letter-spacing:0.22em;color:var(--accent);
+  text-transform:uppercase;display:block;margin-bottom:8px;
+}
+.section-head h2{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:44px;line-height:1.15;letter-spacing:-0.015em;
+  color:var(--fg);
+}
+.section-head h2 em{font-style:italic;color:var(--drama)}
+.section-head .desc{
+  font-family:var(--font-mono);font-size:12px;
+  letter-spacing:0.15em;color:var(--fg-mute);
+  text-transform:uppercase;text-align:right;max-width:380px;
+}
+
+/* === BIBLE V2 PRINCIPLES === */
+.principles{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:18px;
+}
+.principle{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:28px 22px;
+  position:relative;
+  transition:transform 0.2s ease,border-color 0.2s ease;
+}
+.principle:hover{transform:translateY(-3px);border-color:var(--accent)}
+.principle .pn{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.2em;color:var(--accent);
+  margin-bottom:18px;display:block;
+}
+.principle h3{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:22px;line-height:1.2;color:var(--fg);
+  margin-bottom:12px;
+}
+.principle p{
+  font-family:var(--font-sans);font-size:13px;line-height:1.45;
+  color:var(--fg-mute);
+}
+.principle .acc{color:var(--drama);font-weight:600}
+@media(max-width:1100px){.principles{grid-template-columns:repeat(2,1fr)}}
+
+/* === GOAL METRICS BAR === */
+.goal-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--border);margin-top:36px;
+}
+.goal-bar .cell{
+  padding:24px 28px;border-right:1px solid var(--border);
+  background:var(--bg-card);
+}
+.goal-bar .cell:last-child{border-right:none}
+.goal-bar .cell .label{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--fg-mute);margin-bottom:10px;display:block;
+}
+.goal-bar .cell .target{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:48px;line-height:1;color:var(--accent);
+  letter-spacing:-0.02em;
+}
+.goal-bar .cell .compare{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.12em;color:var(--fg-mute);
+  margin-top:8px;display:block;
+}
+.goal-bar .cell .compare strike{color:var(--fg-mute);opacity:0.6}
+@media(max-width:900px){.goal-bar{grid-template-columns:repeat(2,1fr)}.goal-bar .cell{border-right:none;border-bottom:1px solid var(--border)}}
+
+/* === COMPARISON TABLE === */
+.cmp-table{
+  width:100%;border-collapse:collapse;
+  background:var(--bg-card);border:1px solid var(--border);
+  font-size:14px;
+}
+.cmp-table th{
+  background:var(--bg);color:var(--accent);
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  padding:16px 18px;text-align:left;
+  border-bottom:1px solid var(--border);
+  font-weight:500;
+}
+.cmp-table td{
+  padding:18px;border-bottom:1px solid var(--border);
+  vertical-align:top;
+}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table .row-num{
+  font-family:var(--font-mono);font-weight:700;
+  color:var(--accent);font-size:13px;width:40px;
+}
+.cmp-table .word{
+  font-family:var(--font-mono);font-weight:700;font-size:18px;
+  color:var(--drama);letter-spacing:0.12em;
+}
+.cmp-table .variant{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--fg-mute);
+}
+.cmp-table .variant.harmony{color:#8B6F47}
+.cmp-table .variant.hormozi{color:var(--accent)}
+.cmp-table .v1-hook{
+  font-family:var(--font-sans);font-size:13px;
+  color:var(--fg-mute);font-style:italic;
+  max-width:240px;line-height:1.4;
+  text-decoration:line-through;text-decoration-color:rgba(168,51,59,0.4);
+}
+.cmp-table .v2-hook{
+  font-family:var(--font-serif);font-size:14px;
+  font-weight:600;color:var(--fg);
+  max-width:340px;line-height:1.4;
+}
+.cmp-table .v2-hook em{color:var(--drama);font-style:italic;font-weight:700}
+.cmp-table .lift{
+  font-family:var(--font-mono);font-weight:700;
+  color:var(--accent);font-size:14px;letter-spacing:0.05em;
+  text-align:right;
+}
+.cmp-table .lift small{
+  font-weight:500;color:var(--fg-mute);font-size:10px;
+  display:block;letter-spacing:0.1em;margin-top:4px;
+}
+
+/* === SIDE-BY-SIDE === */
+.sbs-grid{
+  display:grid;grid-template-columns:1fr;gap:48px;
+}
+.sbs-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:28px 32px;
+}
+.sbs-card-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--border);
+  padding-bottom:16px;margin-bottom:24px;
+  flex-wrap:wrap;gap:12px;
+}
+.sbs-card-head .left{display:flex;align-items:baseline;gap:18px}
+.sbs-card-head .word{
+  font-family:var(--font-mono);font-weight:700;
+  font-size:28px;color:var(--drama);letter-spacing:0.12em;
+}
+.sbs-card-head .product{
+  font-family:var(--font-sans);font-weight:500;font-size:15px;
+  color:var(--fg);
+}
+.sbs-card-head .product small{color:var(--fg-mute);display:block;margin-top:4px;font-size:12px}
+.sbs-card-head .var-tag{
+  font-family:var(--font-mono);font-size:10px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  border:1px solid var(--accent);color:var(--accent);
+  padding:5px 11px;
+}
+.sbs-card-head .var-tag.hormozi{border-color:var(--drama);color:var(--drama)}
+.sbs-pair{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  margin-bottom:18px;
+}
+.sbs-side{
+  display:flex;flex-direction:column;
+}
+.sbs-label{
+  font-family:var(--font-mono);font-weight:700;font-size:13px;
+  letter-spacing:0.22em;text-transform:uppercase;
+  padding:8px 14px;display:inline-block;align-self:flex-start;
+  margin-bottom:10px;
+}
+.sbs-label.v1{
+  background:transparent;color:var(--fg-mute);
+  border:1px solid var(--fg-mute);
+}
+.sbs-label.v2{
+  background:var(--drama);color:var(--ivory);
+}
+.sbs-thumb{
+  position:relative;width:100%;
+  aspect-ratio:4/5;background:#1a1410;
+  background-size:cover;background-position:center;
+  cursor:pointer;
+  transition:transform 0.25s ease,box-shadow 0.25s ease;
+  overflow:hidden;
+}
+.sbs-thumb:hover{
+  transform:scale(1.05);
+  box-shadow:0 18px 40px rgba(92,26,27,0.45),0 0 0 2px var(--drama);
+  z-index:5;
+}
+.sbs-thumb::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,0.4) 100%);
+  pointer-events:none;
+}
+.sbs-caption{
+  margin-top:14px;
+  font-family:var(--font-sans);font-size:12px;line-height:1.4;
+  color:var(--fg-mute);font-style:italic;
+  border-left:2px solid var(--accent);padding-left:12px;
+}
+@media(max-width:760px){.sbs-pair{grid-template-columns:1fr}}
+
+/* === SCHEDULE === */
+.schedule-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+}
+.sch-row{
+  display:grid;grid-template-columns:80px 90px 1fr 100px 120px;
+  align-items:center;gap:16px;
+  padding:18px 24px;border-bottom:1px solid var(--border);
+}
+.sch-row:nth-child(odd){background:rgba(139,90,43,0.04)}
+.sch-row:hover{background:rgba(139,90,43,0.10)}
+.sch-row .num{
+  font-family:var(--font-mono);font-weight:700;
+  color:var(--accent);font-size:14px;letter-spacing:0.1em;
+}
+.sch-row .time{
+  font-family:var(--font-mono);font-weight:700;
+  font-size:18px;color:var(--fg);letter-spacing:0.05em;
+}
+.sch-row .word{
+  font-family:var(--font-mono);font-weight:700;
+  font-size:18px;color:var(--drama);letter-spacing:0.12em;
+}
+.sch-row .variant{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--fg-mute);
+}
+.sch-row .product{
+  font-family:var(--font-sans);font-size:13px;
+  color:var(--fg-mute);font-style:italic;
+  text-align:right;
+}
+@media(max-width:900px){
+  .schedule-grid{grid-template-columns:1fr}
+  .sch-row{grid-template-columns:60px 80px 1fr;}
+  .sch-row .variant,.sch-row .product{display:none}
+}
+
+/* === METRICS BIG TABLE === */
+.metrics-table{
+  width:100%;border-collapse:collapse;
+  background:var(--bg-card);border:1px solid var(--border);
+}
+.metrics-table th{
+  background:var(--bg);
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  font-weight:500;color:var(--accent);
+  padding:18px 22px;text-align:left;
+  border-bottom:1px solid var(--border);
+}
+.metrics-table td{
+  padding:24px 22px;border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+.metrics-table tr:last-child td{border-bottom:none}
+.metrics-table .m-name{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:22px;color:var(--fg);
+}
+.metrics-table .m-name small{
+  display:block;font-family:var(--font-mono);font-size:11px;
+  font-weight:500;color:var(--fg-mute);
+  letter-spacing:0.12em;margin-top:4px;
+}
+.metrics-table .m-v1{
+  font-family:var(--font-mono);font-size:18px;color:var(--fg-mute);
+  font-weight:500;
+}
+.metrics-table .m-v1::before{content:"~"}
+.metrics-table .m-v2{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:36px;color:var(--accent);letter-spacing:-0.01em;
+}
+.metrics-table .m-v2::before{content:"≥ "}
+.metrics-table .m-arrow{
+  font-family:var(--font-mono);font-size:12px;
+  letter-spacing:0.15em;color:var(--drama);
+  font-weight:700;text-transform:uppercase;
+  text-align:center;width:80px;
+}
+.metrics-table .m-arrow .x{
+  font-family:var(--font-serif);font-size:24px;
+  font-style:italic;display:block;color:var(--drama);
+}
+
+/* === CTA ZONE === */
+.cta-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+}
+.cta-btn{
+  display:flex;flex-direction:column;justify-content:space-between;
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:32px 28px;text-decoration:none;color:var(--fg);
+  transition:all 0.25s ease;min-height:200px;
+  cursor:pointer;
+}
+.cta-btn:hover{
+  border-color:var(--drama);
+  transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(92,26,27,0.3);
+}
+.cta-btn.primary{background:var(--drama);border-color:var(--drama);color:var(--ivory)}
+.cta-btn.primary:hover{background:#722025}
+.cta-btn .icon{
+  font-family:var(--font-serif);font-size:48px;font-weight:700;
+  color:var(--accent);margin-bottom:12px;font-style:italic;
+}
+.cta-btn.primary .icon{color:var(--ivory)}
+.cta-btn h3{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:24px;line-height:1.2;margin-bottom:10px;
+}
+.cta-btn p{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--fg-mute);
+}
+.cta-btn.primary p{color:rgba(247,243,236,0.8)}
+@media(max-width:900px){.cta-row{grid-template-columns:1fr}}
+
+/* === NEXT STEPS === */
+.steps{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+.step{
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:32px 28px;position:relative;
+}
+.step .when{
+  font-family:var(--font-mono);font-weight:700;font-size:11px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;display:block;
+  border:1px solid var(--accent);padding:6px 12px;display:inline-block;
+}
+.step h3{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:22px;line-height:1.25;color:var(--fg);
+  margin-bottom:14px;
+}
+.step ul{list-style:none;padding:0}
+.step li{
+  font-family:var(--font-sans);font-size:13px;line-height:1.5;
+  color:var(--fg-mute);padding:6px 0 6px 18px;position:relative;
+}
+.step li::before{
+  content:"—";position:absolute;left:0;color:var(--drama);
+  font-weight:700;
+}
+@media(max-width:900px){.steps{grid-template-columns:1fr}}
+
+/* === FOOTER === */
+.foot{
+  text-align:center;padding-top:40px;
+  border-top:1px solid var(--border);
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--fg-mute);
+}
+.foot a{color:var(--accent)}
+
+/* === LIGHTBOX === */
+.lightbox{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.95);z-index:10000;
+  padding:30px;overflow-y:auto;
+  align-items:center;justify-content:center;
+}
+.lightbox.active{display:flex}
+.lightbox-inner{
+  max-width:1080px;max-height:95vh;width:100%;position:relative;
+  display:flex;flex-direction:column;align-items:center;
+}
+.lightbox img{
+  max-width:100%;max-height:88vh;
+  object-fit:contain;display:block;
+  box-shadow:0 24px 64px rgba(0,0,0,0.8);
+}
+.lightbox-meta{
+  margin-top:18px;font-family:var(--font-mono);font-size:13px;
+  letter-spacing:0.18em;color:#ddd;text-transform:uppercase;
+  text-align:center;
+}
+.lightbox-meta span{color:var(--accent)}
+.lb-close{
+  position:fixed;top:24px;right:32px;
+  background:none;border:1px solid #fff;color:#fff;
+  font-size:28px;width:48px;height:48px;cursor:pointer;
+  font-family:var(--font-mono);z-index:10001;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s ease;
+}
+.lb-close:hover{background:rgba(255,255,255,0.1)}
+
+/* responsive */
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr;gap:40px}
+  .hero h1{font-size:60px}
+  .section-head h2{font-size:32px}
+  .cmp-table{font-size:12px}
+  .cmp-table .v2-hook{font-size:13px}
+  .cmp-table th,.cmp-table td{padding:12px}
+}
+@media(max-width:760px){
+  .shell{padding:24px 18px}
+  .hero h1{font-size:44px}
+  .principles{grid-template-columns:1fr}
+  .cmp-table thead{display:none}
+  .cmp-table tr{display:block;margin-bottom:18px;border:1px solid var(--border);padding:14px}
+  .cmp-table td{display:block;padding:6px 0;border:none}
+  .metrics-table .m-name{font-size:18px}
+  .metrics-table .m-v2{font-size:24px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="crumb">CASE №V2 · DOSSIER · <span>2026·04·24</span> · @YURII_DOVHAN</div>
+    <div class="controls">
+      <button class="toggle-btn" id="theme-btn">☾ Light mode</button>
+      <span>JD · DETECTIVE</span>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="case-num">EVIDENCE · UPGRADE V1 → V2</div>
+      <h1>V2 — <em>Premium.</em><br>Порівняй <strong>з V1.</strong></h1>
+      <p class="subtitle">10 каруселей, 100 слайдів, <b>Ink&Amber editorial</b>. IBM Plex Triple замість Special Elite. Sunk cost slide 5. Blood-Wine drama. Specific hook formulas замість генеричних детектив-кліше.</p>
+    </div>
+    <aside class="hero-meta">
+      <div class="row"><span>FORMAT</span><span>1080×1350 · 4:5</span></div>
+      <div class="row"><span>SLIDES</span><span>10 × 10 = 100</span></div>
+      <div class="row"><span>VARIANTS</span><span>Harmony · Hormozi</span></div>
+      <div class="row"><span>SCHEDULE</span><span>26.04 · 09:00 → 18:00</span></div>
+      <div class="row"><span>TIMEZONE</span><span>Kyiv UTC+2</span></div>
+      <div class="row"><span>STATUS</span><span style="color:var(--drama);font-weight:700">READY · APPROVE</span></div>
+    </aside>
+  </section>
+
+  <!-- A. BIBLE V2 PRINCIPLES -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <span class="num">A · BIBLE V2</span>
+        <h2>5 змін у <em>V2</em> — premium editorial</h2>
+      </div>
+      <div class="desc">З 27-Design-Bible-V2-Premium · audit V1 → rebuild commands</div>
+    </div>
+    <div class="principles">
+      <div class="principle">
+        <span class="pn">CHANGE 01</span>
+        <h3>IBM Plex Triple</h3>
+        <p>Serif (editorial) + Sans (body) + Mono (case codes). <span class="acc">Замість</span> Special Elite та Permanent Marker на body. Cognitive friction -40%, повна UA-кирилиця.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">CHANGE 02</span>
+        <h3>Slide 5 — sunk cost</h3>
+        <p>Дочитав до 5 — exploit. <span class="acc">"Далі — найскладніше, тільки тим, хто дочитав"</span>. Completion 45% → 72%.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">CHANGE 03</span>
+        <h3>Blood-Wine #5C1A1B</h3>
+        <p>Oxblood drama trend 2026. Підсвічує 1 ключове слово на слайд. <span class="acc">Netflix-noir</span> замість теплого ретро.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">CHANGE 04</span>
+        <h3>Specific hook formulas</h3>
+        <p>Specific Moment, Confession, Reverse Expectation, Pattern Interrupt. <span class="acc">"На 18-й хвилині після сесії..."</span> замість "ChatGPT для коучів".</p>
+      </div>
+      <div class="principle">
+        <span class="pn">CHANGE 05</span>
+        <h3>Bottega negative space</h3>
+        <p>40-60% слайду порожнє. Sharp corners ≤4px. Subtle 5% noise. <span class="acc">Editorial premium</span> замість clutter з grain.</p>
+      </div>
+    </div>
+
+    <!-- GOAL METRICS BAR -->
+    <div class="goal-bar">
+      <div class="cell">
+        <span class="label">Save rate</span>
+        <span class="target">≥ 3%</span>
+        <span class="compare"><strike>~0.8%</strike> V1 baseline · 3.75× lift</span>
+      </div>
+      <div class="cell">
+        <span class="label">DM-send</span>
+        <span class="target">≥ 1.5%</span>
+        <span class="compare"><strike>~0.3%</strike> V1 baseline · 5× lift</span>
+      </div>
+      <div class="cell">
+        <span class="label">3-sec hold</span>
+        <span class="target">≥ 70%</span>
+        <span class="compare"><strike>~50%</strike> V1 baseline · +40%</span>
+      </div>
+      <div class="cell">
+        <span class="label">Slide-7 retention</span>
+        <span class="target">≥ 45%</span>
+        <span class="compare"><strike>~30%</strike> V1 baseline · 1.5× lift</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- B. TABLE V1 vs V2 -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <span class="num">B · HOOK COMPARISON</span>
+        <h2>10 каруселей · <em>V1 → V2</em> hooks</h2>
+      </div>
+      <div class="desc">Hypothesis lift — оцінка з 23-Research-Viral + 26-Algorithm 2026</div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="cmp-table" id="cmp-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Code-word</th>
+          <th>Variant</th>
+          <th>V1 Hook (старий)</th>
+          <th>V2 Hook (новий)</th>
+          <th style="text-align:right">Hypothesis Lift</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- C. SIDE-BY-SIDE -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <span class="num">C · SIDE-BY-SIDE</span>
+        <h2>10 пар · <em>V1 cover</em> vs <em>V2 cover</em></h2>
+      </div>
+      <div class="desc">Hover — zoom 1.05× + glow blood-wine · Click — full size 1080×1350</div>
+    </div>
+    <div class="sbs-grid" id="sbs-grid"></div>
+  </section>
+
+  <!-- D. SCHEDULE -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <span class="num">D · CONTENT BACKLOG</span>
+        <h2>Розклад · <em>26.04.2026</em> · Kyiv</h2>
+      </div>
+      <div class="desc">10 публікацій · щогодини · 09:00 → 18:00</div>
+    </div>
+    <div class="schedule-grid" id="schedule-grid"></div>
+    <p style="margin-top:18px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.15em;color:var(--fg-mute);text-transform:uppercase">
+      ⚠ Compressed-cycle: 10 у день — sprint test. Канонічний spacing з Bible §12 (36h gap) — fallback якщо reach падає &gt; 30%.
+    </p>
+  </section>
+
+  <!-- E. METRICS V1 vs V2 -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <span class="num">E · METRICS GOAL</span>
+        <h2>V2 ціль <em>vs</em> V1 baseline</h2>
+      </div>
+      <div class="desc">Benchmarks з 26-Research-Algorithm-2026 (Sprout, Hootsuite, Buffer, Marketing Agent)</div>
+    </div>
+    <table class="metrics-table">
+      <thead>
+        <tr>
+          <th>Метрика</th>
+          <th style="width:18%">V1 baseline</th>
+          <th style="width:8%"></th>
+          <th style="width:22%">V2 ціль</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="m-name">Save rate<small>Топ-сигнал 2026 · Sprout, Marketing Agent</small></span></td>
+          <td><span class="m-v1">0.8%</span></td>
+          <td class="m-arrow"><span class="x">×</span>3.75</td>
+          <td><span class="m-v2">3%</span></td>
+        </tr>
+        <tr>
+          <td><span class="m-name">DM-send rate<small>Sends per reach · Mosseri 2026 #1 signal</small></span></td>
+          <td><span class="m-v1">0.3%</span></td>
+          <td class="m-arrow"><span class="x">×</span>5</td>
+          <td><span class="m-v2">1.5%</span></td>
+        </tr>
+        <tr>
+          <td><span class="m-name">3-sec hold (cover)<small>Thumb-stop threshold · benchmark 65-75%</small></span></td>
+          <td><span class="m-v1">50%</span></td>
+          <td class="m-arrow"><span class="x">×</span>1.4</td>
+          <td><span class="m-v2">70%</span></td>
+        </tr>
+        <tr>
+          <td><span class="m-name">Slide-7 retention<small>Найбільший drop-off · TryMyPost 2026</small></span></td>
+          <td><span class="m-v1">30%</span></td>
+          <td class="m-arrow"><span class="x">×</span>1.5</td>
+          <td><span class="m-v2">45%</span></td>
+        </tr>
+        <tr>
+          <td><span class="m-name">Completion 10/10<small>Explore unlock · ≥60% сильні · Marketing Agent</small></span></td>
+          <td><span class="m-v1">25%</span></td>
+          <td class="m-arrow"><span class="x">×</span>2</td>
+          <td><span class="m-v2">50%</span></td>
+        </tr>
+        <tr>
+          <td><span class="m-name">DM-conversion 24h<small>Code-word gate · Hidden ranking signal</small></span></td>
+          <td><span class="m-v1">0.1%</span></td>
+          <td class="m-arrow"><span class="x">×</span>8</td>
+          <td><span class="m-v2">0.8%</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- F. CTA -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <span class="num">F · DECISIONS</span>
+        <h2>Юрію · <em>3 дії</em> зараз</h2>
+      </div>
+      <div class="desc">Approve → Trigger → Monitor</div>
+    </div>
+    <div class="cta-row">
+      <a class="cta-btn primary" href="https://www.notion.so/cabeef2a08f647c4b8efd93939d99971" target="_blank" rel="noopener">
+        <div>
+          <div class="icon">✓</div>
+          <h3>Approve all V2 (10/10)</h3>
+        </div>
+        <p>Відкрий Notion DB · підтверди статус Ready</p>
+      </a>
+      <a class="cta-btn" href="#" id="trigger-btn">
+        <div>
+          <div class="icon">▶</div>
+          <h3>Trigger first publish now</h3>
+        </div>
+        <p>Vercel webhook · СЛІД 09:00 → live</p>
+      </a>
+      <a class="cta-btn" href="https://www.notion.so/cabeef2a08f647c4b8efd93939d99971" target="_blank" rel="noopener">
+        <div>
+          <div class="icon">◷</div>
+          <h3>Open Notion to monitor</h3>
+        </div>
+        <p>DM-in · saves · 3-sec hold · DM-conversion</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- G. NEXT STEPS -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <span class="num">G · POST-LAUNCH</span>
+        <h2>Що дивитись <em>після</em> публікації</h2>
+      </div>
+      <div class="desc">48h read · 7d read · V3 decision</div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="when">+ 48 годин · 28.04 ввечері</span>
+        <h3>First read · DM-in аналіз</h3>
+        <ul>
+          <li>DM-in по кожному з 10 кодових слів — який сегмент клює</li>
+          <li>Найсильніше слово — гіпотеза чому (Specific Moment? Confession? Reverse?)</li>
+          <li>Harmony vs Hormozi на одному продукті — який голос виграв у DM</li>
+          <li>3-sec hold кожної cover у Instagram Insights</li>
+        </ul>
+      </div>
+      <div class="step">
+        <span class="when">+ 7 днів · 03.05</span>
+        <h3>Full read · Algorithm tail</h3>
+        <ul>
+          <li>Save rate · фактичний % vs ціль ≥3%</li>
+          <li>Slide-7 retention · де реальний drop, як заклеювати у V3</li>
+          <li>Top 3 carousels · спільне у hook formula, layout, code-word</li>
+          <li>Bottom 3 carousels · що не зайшло, перевипуск чи pivot</li>
+        </ul>
+      </div>
+      <div class="step">
+        <span class="when">+ 14 днів · 10.05</span>
+        <h3>V3 концепція · якщо V2 виграв</h3>
+        <ul>
+          <li>Якщо save rate ≥2× проти V1 — будуємо V3 на топ-3 формулах</li>
+          <li>V3 = personal photo + redacted layouts + interactive choose-your-own (Chipotle pattern)</li>
+          <li>Threads-нативна серія 5-7 постів за карусель замість cross-post</li>
+          <li>Цикл публікацій — 3 тижні замість 1 дня (Bible §12 spacing)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>10 каруселей V2 · 100 JPEG · 1080×1350 · IBM Plex Triple · Smoke + Ivory + Amber + Blood-Wine + Sage</p>
+    <p style="margin-top:8px">@yurii_dovhan · <a href="dashboard.html">← Dashboard V1</a> · <a href="dm-keywords.md">dm-keywords.md</a> · DETECTIVE FM</p>
+  </footer>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="if(event.target.id==='lightbox')closeLB()">
+  <button class="lb-close" onclick="closeLB()">✕</button>
+  <div class="lightbox-inner">
+    <img id="lb-img" alt="">
+    <div class="lightbox-meta" id="lb-meta"></div>
+  </div>
+</div>
+
+<script>
+// === DATA ===
+const CAROUSELS = [
+  {
+    n:1, word:'СЛІД', variant:'harmony', slug:'slid',
+    product:'Звіт клієнту за 18 хв (К1)',
+    dna:'Оксана-психолог',
+    v1:'Generic detective hook · "AI-помічник у звітах"',
+    v2:'На <em>18-й хвилині</em> після сесії ти тримаєш звіт, якого раніше не було.',
+    formula:'Specific Moment',
+    lift:'+35%', liftLabel:'save rate',
+    caption:'Неділя 22:47. П\'ять блокнотів у Вроцлаві. Жоден звіт не написаний...'
+  },
+  {
+    n:2, word:'ГОЛОС', variant:'harmony', slug:'golos',
+    product:'AI-копірайтер у твоєму голосі (К2)',
+    dna:'Іра-коуч',
+    v1:'"ChatGPT для коучів" · generic AI-помічник',
+    v2:'Раніше я писала пост <em>50 хв</em>. Зараз — 7. Але голос — <em>мій</em>.',
+    formula:'Confession',
+    lift:'+50%', liftLabel:'DM-send',
+    caption:'Середа 14:00, чернетка. 18:00 стерла все. Три пости. Один з трьох — мій...'
+  },
+  {
+    n:3, word:'ДЗЕРКАЛО', variant:'harmony', slug:'dzerkalo',
+    product:'Аналіз власного мовлення у сесії (К3)',
+    dna:'Оксана + Андрій',
+    v1:'"AI-супервізор для психологів" · positioned як заміна',
+    v2:'Ти не побачиш цього на <em>супервізії</em>. Бо це про твоє <em>мовлення</em>.',
+    formula:'Reverse Expectation',
+    lift:'+40%', liftLabel:'3-sec hold',
+    caption:'Раз на місяць супервізія. $60-150/год. Ти розповідаєш по пам\'яті. А мовлення?'
+  },
+  {
+    n:4, word:'ЗІРКИ', variant:'harmony', slug:'zirky',
+    product:'5 ідей продукту з твоїх сесій (К5)',
+    dna:'Андрій-консалтер',
+    v1:'"5 ідей продукту з AI" · generic продукт-генератор',
+    v2:'Твої клієнти вже сказали, який <em>продукт</em> тобі робити. Ти не <em>почув</em>.',
+    formula:'Pattern Interrupt',
+    lift:'+45%', liftLabel:'completion',
+    caption:'Андрій, 12 років, $200/год. Служба одного. AI-native колеги обжене? 20 транскриптів...'
+  },
+  {
+    n:5, word:'ПОРТРЕТ', variant:'harmony', slug:'portret',
+    product:'Анкета-скринер нового клієнта (К6)',
+    dna:'Оксана + Іра',
+    v1:'"Як підготуватись до першої сесії" · generic preparation',
+    v2:'Що ти <em>знаєш</em> про клієнта <em>ДО</em> Zoom-сесії?',
+    formula:'Question that demands scroll',
+    lift:'+30%', liftLabel:'slide-7 retention',
+    caption:'Четвер 19:00, Zoom. "Розкажіть про себе". 17 хв монологу. А ти готовий?'
+  },
+  {
+    n:6, word:'ЗВІТ', variant:'hormozi', slug:'zvit',
+    product:'PDF клієнту за 18 хв (К1 GSO)',
+    dna:'Оксана-психолог',
+    v1:'"Економ 5 годин на тиждень з AI" · ROI без специфіки',
+    v2:'<em>18 хвилин.</em> Замість 90. Кожен звіт клієнту.',
+    formula:'Specific Numbers',
+    lift:'+50%', liftLabel:'3-sec hold',
+    caption:'18 хв замість 90 = 5 год/тижд × 4 тижні = 20 год/міс повернутих часу...'
+  },
+  {
+    n:7, word:'ПОМІЧНИК', variant:'hormozi', slug:'pomichnyk',
+    product:'AI-копірайтер у твоєму голосі (К2 GSO)',
+    dna:'Іра-коуч',
+    v1:'"AI пише пости за тебе" · generic content automation',
+    v2:'До: 4 год = 3 пости. Після: 4 год = <em>15 постів</em>. Голос — <em>той самий</em>.',
+    formula:'Before/After + Numbers',
+    lift:'+40%', liftLabel:'DM-conversion',
+    caption:'Іра, 3 роки коучингу, IG 6K. Контент-день = 4 год → 3 пости → виснажена. Тепер ×5.'
+  },
+  {
+    n:8, word:'АНАЛІЗ', variant:'hormozi', slug:'analiz',
+    product:'Карта мовлення у сесії (К3 GSO)',
+    dna:'Оксана + Андрій',
+    v1:'"AI аналізує твою сесію" · generic transcription',
+    v2:'5 хв читання. 15 сторінок. <em>5 пропущених тригерів</em> у одній твоїй сесії.',
+    formula:'Specific Numbers',
+    lift:'+35%', liftLabel:'save rate',
+    caption:'Звіт-карта 15 сторінок: 5 пропущених тригерів, 12 повторів, ваша/клієнта частка...'
+  },
+  {
+    n:9, word:'ПРОДУКТ', variant:'hormozi', slug:'produkt',
+    product:'1 ідея + 14-day pre-sale (К5 GSO)',
+    dna:'Андрій-консалтер',
+    v1:'"5 продуктів з твоїх сесій" · scattered idea-generator',
+    v2:'5 ідей продукту. <em>14 днів.</em> $0 → $5 880.',
+    formula:'Open Loop + Specific Numbers',
+    lift:'+45%', liftLabel:'DM-send',
+    caption:'Андрій, плато $15K/міс, служба одного. 1 ідея + 14-day pre-sale = $5 880 за 2 тижні...'
+  },
+  {
+    n:10, word:'АНКЕТА', variant:'hormozi', slug:'anketa',
+    product:'Скринер клієнта · 100 хв/міс + 12% conv (К6 GSO)',
+    dna:'Оксана + Іра',
+    v1:'"Анкета перед сесією — економія часу" · soft promise',
+    v2:'Усі питають клієнта <em>НА</em> Zoom. Ти знаєш <em>ДО</em> Zoom.',
+    formula:'You vs They',
+    lift:'+40%', liftLabel:'completion',
+    caption:'Усі: 17 хв питань на Zoom. Ти: 2-page портрет до Zoom. +12% конверсія у другу...'
+  }
+];
+
+const SCHEDULE = [
+  {n:'01',time:'09:00',word:'СЛІД',variant:'Harmony',product:'Звіт клієнту за 18 хв'},
+  {n:'02',time:'10:00',word:'ГОЛОС',variant:'Harmony',product:'AI-копірайтер · твій голос'},
+  {n:'03',time:'11:00',word:'ДЗЕРКАЛО',variant:'Harmony',product:'Аналіз власного мовлення'},
+  {n:'04',time:'12:00',word:'ЗІРКИ',variant:'Harmony',product:'5 ідей продукту з сесій'},
+  {n:'05',time:'13:00',word:'ПОРТРЕТ',variant:'Harmony',product:'Анкета-скринер клієнта'},
+  {n:'06',time:'14:00',word:'ЗВІТ',variant:'Hormozi',product:'PDF за 18 хв · GSO'},
+  {n:'07',time:'15:00',word:'ПОМІЧНИК',variant:'Hormozi',product:'×5 постів · той самий голос'},
+  {n:'08',time:'16:00',word:'АНАЛІЗ',variant:'Hormozi',product:'5 пропущених тригерів'},
+  {n:'09',time:'17:00',word:'ПРОДУКТ',variant:'Hormozi',product:'14-day pre-sale · $5 880'},
+  {n:'10',time:'18:00',word:'АНКЕТА',variant:'Hormozi',product:'+12% конверсія у 2-гу сесію'}
+];
+
+// === RENDER ===
+function renderCmpTable(){
+  const tbody=document.querySelector('#cmp-table tbody');
+  CAROUSELS.forEach(c=>{
+    const row=document.createElement('tr');
+    row.innerHTML=`
+      <td class="row-num">${String(c.n).padStart(2,'0')}</td>
+      <td class="word">${c.word}</td>
+      <td><span class="variant ${c.variant}">${c.variant}</span></td>
+      <td class="v1-hook">${c.v1}</td>
+      <td class="v2-hook">${c.v2} <small style="display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;color:var(--fg-mute);margin-top:6px;font-style:normal;text-transform:uppercase">→ ${c.formula}</small></td>
+      <td class="lift">${c.lift}<small>${c.liftLabel}</small></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function renderSBS(){
+  const wrap=document.getElementById('sbs-grid');
+  CAROUSELS.forEach(c=>{
+    const v1Path=`_v1_backup/${c.variant}/${c.slug}/slide_01.jpg`;
+    const v2Path=`${c.variant}/${c.slug}/slide_01.jpg`;
+    const card=document.createElement('article');
+    card.className='sbs-card';
+    card.innerHTML=`
+      <header class="sbs-card-head">
+        <div class="left">
+          <span class="word">${String(c.n).padStart(2,'0')} · ${c.word}</span>
+          <span class="product">${c.product}<small>${c.dna} · ${c.formula}</small></span>
+        </div>
+        <span class="var-tag ${c.variant}">${c.variant.toUpperCase()}</span>
+      </header>
+      <div class="sbs-pair">
+        <div class="sbs-side">
+          <span class="sbs-label v1">V1 · OLD</span>
+          <div class="sbs-thumb" style="background-image:url('${v1Path}')"
+               onclick="openLB('${v1Path}','${c.word}','V1 · ${c.variant.toUpperCase()}')"></div>
+        </div>
+        <div class="sbs-side">
+          <span class="sbs-label v2">V2 · PREMIUM</span>
+          <div class="sbs-thumb" style="background-image:url('${v2Path}')"
+               onclick="openLB('${v2Path}','${c.word}','V2 · ${c.variant.toUpperCase()}')"></div>
+        </div>
+      </div>
+      <div class="sbs-caption">${c.caption}</div>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+function renderSchedule(){
+  const wrap=document.getElementById('schedule-grid');
+  SCHEDULE.forEach(s=>{
+    const row=document.createElement('div');
+    row.className='sch-row';
+    row.innerHTML=`
+      <span class="num">№ ${s.n}</span>
+      <span class="time">${s.time}</span>
+      <span class="word">${s.word}</span>
+      <span class="variant">${s.variant}</span>
+      <span class="product">${s.product}</span>
+    `;
+    wrap.appendChild(row);
+  });
+}
+
+// === LIGHTBOX ===
+function openLB(src,word,label){
+  const img=document.getElementById('lb-img');
+  const meta=document.getElementById('lb-meta');
+  img.src=src;
+  meta.innerHTML=`<span>${word}</span> · ${label} · 1080×1350`;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+function closeLB(){
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB()});
+
+// === THEME TOGGLE ===
+const themeBtn=document.getElementById('theme-btn');
+themeBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('light');
+  themeBtn.textContent=document.body.classList.contains('light')?'☀ Dark mode':'☾ Light mode';
+});
+
+// === TRIGGER BTN PLACEHOLDER ===
+document.getElementById('trigger-btn').addEventListener('click',e=>{
+  e.preventDefault();
+  alert('Webhook URL ще не підключено. Деплой Notion → Vercel → IG публікація налаштовується окремою задачею.\n\nЗараз: відкрий Notion DB і запусти першу публікацію вручну за розкладом 26.04 09:00.');
+});
+
+// === INIT ===
+renderCmpTable();
+renderSBS();
+renderSchedule();
+</script>
+</body>
+</html>

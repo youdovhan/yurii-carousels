@@ -176,12 +176,11 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   max-width:760px;
 }
 
-/* === LAYOUT 3: evidence-board === */
+/* === LAYOUT 3: evidence-board (paper variant — light only) === */
 [data-layout="evidence-board"]{
-  background:var(--smoke);
-  color:var(--ivory);
+  background:var(--ivory);
+  color:var(--smoke);
 }
-[data-layout="evidence-board"]::after{border-color:rgba(247,243,236,0.07)}
 [data-layout="evidence-board"] .slide-label{
   color:var(--amber);
   margin-bottom:50px;
@@ -191,24 +190,20 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   flex:1;align-items:center;
 }
 [data-layout="evidence-board"] .board.cols-2{grid-template-columns:repeat(2,1fr);gap:50px}
+[data-layout="evidence-board"] .board.cols-4{grid-template-columns:repeat(2,1fr);gap:40px;align-content:center}
 [data-layout="evidence-board"] .board.cols-5{grid-template-columns:repeat(5,1fr);gap:18px}
+[data-layout="evidence-board"] .board{align-content:center}
 [data-layout="evidence-board"] .polaroid{
-  background:var(--paper-white);color:var(--smoke);
-  padding:18px 18px 36px;
+  background:#FFFFFF;color:var(--smoke);
+  padding:32px 28px 36px;
   transform:rotate(var(--r,0deg));
-  box-shadow:var(--shadow-polaroid);
+  box-shadow:0 14px 32px rgba(43,37,34,0.18);
   border-radius:var(--corner);
+  border:1px solid rgba(43,37,34,0.08);
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:380px;
 }
-[data-layout="evidence-board"] .board.cols-5 .polaroid{padding:14px 14px 24px}
-[data-layout="evidence-board"] .photo{
-  background:linear-gradient(135deg, var(--mono-slate) 0%, var(--smoke) 100%);
-  aspect-ratio:1;margin-bottom:14px;
-  position:relative;overflow:hidden;
-}
-[data-layout="evidence-board"] .photo::before{
-  content:"";position:absolute;inset:0;
-  background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px);
-}
+[data-layout="evidence-board"] .board.cols-5 .polaroid{padding:20px 16px 24px;min-height:280px}
 [data-layout="evidence-board"] .num{
   font-family:var(--font-mono);
   font-weight:700;font-size:14px;letter-spacing:0.15em;
@@ -326,26 +321,26 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="data-card"] .figure{margin-bottom:24px}
 [data-layout="data-card"] .big{
   font-family:var(--font-serif);
-  font-weight:700;font-size:200px;line-height:0.95;letter-spacing:-0.04em;
+  font-weight:700;font-size:160px;line-height:1.0;letter-spacing:-0.04em;
   color:var(--smoke);
-  display:inline-block;
+  display:block;
 }
 /* HORMOZI accent: × multiplier in amber */
 [data-layout="data-card"] .big em{
-  font-style:normal;color:var(--amber);font-size:120px;
+  font-style:normal;color:var(--amber);font-size:100px;
   padding:0 12px;font-weight:700;
 }
 [data-layout="data-card"] .big .accent{
   color:var(--blood-wine);font-style:italic;
 }
 [data-layout="data-card"] .big .equals{
-  color:var(--amber);font-style:italic;font-size:120px;
+  color:var(--amber);font-style:italic;font-size:100px;
 }
 [data-layout="data-card"] .unit{
   font-family:var(--font-mono);
   font-weight:500;font-size:28px;letter-spacing:0.12em;
   color:var(--mono-slate);
-  display:inline-block;margin-left:16px;
+  display:block;margin-top:24px;
   text-transform:lowercase;
 }
 [data-layout="data-card"] .context{
@@ -437,18 +432,17 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   z-index:3;
 }
 
-/* === LAYOUT 9: case-closed (NIGHT VARIANT + STAKE) === */
+/* === LAYOUT 9: case-closed (paper variant + STAKE — light only) === */
 [data-layout="case-closed"]{
-  background:var(--smoke);color:var(--ivory);
+  background:var(--ivory);color:var(--smoke);
   justify-content:space-between;
 }
-[data-layout="case-closed"]::after{border-color:rgba(247,243,236,0.10)}
 [data-layout="case-closed"] .case-bar{
-  color:var(--amber);
-  border-bottom:1px solid var(--amber);
+  color:var(--mono-slate);
+  border-bottom:1px solid var(--mono-slate);
   font-weight:700;letter-spacing:0.18em;
 }
-[data-layout="case-closed"] .case-bar .num{color:var(--amber)}
+[data-layout="case-closed"] .case-bar .num{color:var(--blood-wine)}
 [data-layout="case-closed"] .finale{
   flex:1;display:flex;flex-direction:column;justify-content:center;
   text-align:center;
@@ -474,7 +468,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="case-closed"] .instruction{
   font-family:var(--font-sans);
   font-weight:500;font-size:24px;line-height:1.4;
-  color:var(--paper-white);
+  color:var(--smoke);
   max-width:760px;
   margin:0 auto;
 }
@@ -497,10 +491,10 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="case-closed"] .stake-block p{
   font-family:var(--font-sans);
   font-weight:500;font-size:20px;line-height:1.4;
-  color:var(--paper-white);
+  color:var(--smoke);
   text-align:center;
 }
-[data-layout="case-closed"] .stake-block p strong{color:var(--amber);font-weight:700}
+[data-layout="case-closed"] .stake-block p strong{color:var(--blood-wine);font-weight:700}
 [data-layout="case-closed"] .seal{
   display:flex;justify-content:space-between;align-items:center;
   font-family:var(--font-mono);
@@ -517,7 +511,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 /* === LAYOUT 10: cliff-hanger === */
 [data-layout="cliff-hanger"]{
-  background:linear-gradient(180deg, var(--ivory) 0%, rgba(107,115,85,0.10) 100%);
+  background:var(--ivory);
   justify-content:center;position:relative;
 }
 [data-layout="cliff-hanger"] .teaser{
@@ -566,15 +560,14 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   color:var(--mono-slate);
   z-index:3;text-transform:uppercase;
 }
-[data-layout="case-closed"] .num-pill,
-[data-layout="evidence-board"] .num-pill{color:rgba(247,243,236,0.5)}
+/* num-pill default color works on both case-closed and evidence-board (paper variants now) */
 
 </style>
 </head>
 <body>
 
 <section class="slide" data-layout="case-file-cover" id="s1">
-  <div class="case-bar"><span class="num">CASE №586</span><span>DOSSIER · 2026·04</span></div>
+  <div class="case-bar"><span class="num">CASE №664</span><span>DOSSIER · 2026·04</span></div>
   <div class="cover-body">
     <span class="kicker">РОЗСЛІДУВАННЯ · INTAKE-SCREENER</span>
     <h1>Усі питають клієнта <em>НА</em> Zoom. Ти знаєш <em>ДО</em> Zoom.</h1>
@@ -589,7 +582,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 <section class="slide" data-layout="field-notes" id="s2">
   <div class="notes-head">
     <span>FIELD NOTES</span>
-    <span>2026-04-26</span>
+    <span>2026-04-27</span>
   </div>
   <ol class="notes">
     <li><span class="tick">—</span><span>25 хв: «розкажіть про себе»</span></li><li><span class="tick">—</span><span>15 хв: слухаєш контекст, кивок, уточнення</span></li><li><span class="tick">—</span><span>5 хв: шукаєш запит під поверхнею слів</span></li><li><span class="tick">—</span><span>15 хв: власне робота</span></li>
@@ -600,9 +593,9 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 
 <section class="slide" data-layout="statement-card" id="s3">
-  <span class="slide-label">СЛІД 03</span>
-  <h2>Перша сесія =<br><em>підтверджена гіпотеза</em>.</h2>
-  
+  <span class="slide-label">АНКЕТА 03 · ГІПОТЕЗА</span>
+  <h2>Перша сесія = <em>підтверджена гіпотеза</em>. Не діагностика. Не «розкажіть про себе». Не знайомство наосліп.</h2>
+  <span class="context">— Ти вже знаєш 80%. Сесія — звірка.</span>
   
   <div class="num-pill">03 / 10</div>
 </section>
@@ -621,9 +614,9 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 
 <section class="slide" data-layout="statement-card" id="s5">
-  <span class="slide-label">СЛІД 05</span>
-  <h2>Кожен новий клієнт —<br><em>25 хвилин</em> розпитування.</h2>
-  
+  <span class="slide-label">АНКЕТА 05 · ЦІНА БЕЗДІЇ</span>
+  <h2>Кожен новий клієнт — <em>25 хвилин</em> розпитування. 12 нових за рік = <em>5 годин</em> «розкажіть про себе». До цього літа.</h2>
+  <span class="context">— Сесункост, переглянутий</span>
   
   <div class="num-pill">05 / 10</div>
 </section>
@@ -634,22 +627,29 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   <div class="board ">
     
       <article class="polaroid" style="--r:-2deg">
-        <div class="photo"></div>
         <span class="num">01</span>
-        <p class="note">typeform UI            photo: AI prompt              photo: PDF portrait 01                            02                            03 Typeform                      AI-резюме                     Портрет 2 стор. 10 питань                     словами клієнта               читаєш 3 хв ─ 5 хв клієнту ─              ─ не шаблонною ─              ─ заходиш у контекст ─</p>
+        <p class="note">TYPEFORM<br>10 питань · 5 хв клієнту</p>
+      </article>
+      <article class="polaroid" style="--r:1.5deg">
+        <span class="num">02</span>
+        <p class="note">AI-РЕЗЮМЕ<br>словами клієнта · не шаблонною</p>
+      </article>
+      <article class="polaroid" style="--r:-2deg">
+        <span class="num">03</span>
+        <p class="note">ПОРТРЕТ 2 СТОР.<br>читаєш 3 хв · заходиш у контекст</p>
       </article>
   </div>
-  
+  <div class="board-foot">5 ХВ КЛІЄНТУ + 3 ХВ ТОБІ</div>
   <div class="num-pill">06 / 10</div>
 </section>
 
 
 <section class="slide" data-layout="quote-pull" id="s7">
   <span class="qmark">«</span>
-  <blockquote>[giant quote-mark, amber]</blockquote>
+  <blockquote>Сесія тепер інша. Заходжу готова. Клієнт відчуває увагу <em>з першої хвилини</em>.</blockquote>
   <div class="quote-foot">
-    <span class="author">— -</span>
-    <span class="ref">CASE №586</span>
+    <span class="author">— Психологиня, 6 років практики</span>
+    <span class="ref">CASE №К6 · СЕСІЯ 1</span>
   </div>
   
   <div class="num-pill">07 / 10</div>
@@ -659,14 +659,14 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 <section class="slide" data-layout="comparison-split" id="s8">
   <div class="col before">
     <span class="col-label">БУЛО</span>
-    <h3>```</h3>
-    <p>БУЛО                          │           СТАЛО<br>──────                         │           ──────<br>[col-label] ПЕРША СЕСІЯ        │      [col-label] ПЕРША СЕСІЯ<br>60 ХВ                          │      60 ХВ<br>│<br>[H3]                           │      [H3]<br>50% розпитування               │      30% звірка<br>50% робота                     │      70% робота<br>│<br>30 хв «розкажіть про себе».    │      18 хв підтвердження гіпотези.<br>30 хв робота.                  │      42 хв реальний результат.<br>Клієнт виходить:               │      Клієнт виходить:<br>«було корисно, але…»           │      «хочу другу.»<br>opacity 0.6                    │      blood-wine accent<br>```<br><strong>Візуал:</strong> Vertical mono-slate divider. Left column opacity 0.6 (faded). Right column — блок у blood-wine з amber-underline під «70% робота». «хочу другу» — italic blood-wine. Before/After через типографіку, не через кольори fill.</p>
+    <h3>50% розпитування / 50% робота</h3>
+    <p>30 хв «розкажіть про себе».<br>30 хв робота.<br>Клієнт: «було корисно, але…»</p>
   </div>
   <div class="divider"></div>
   <div class="col after">
     <span class="col-label">СТАЛО</span>
-    
-    <p></p>
+    <h3>30% звірка / 70% робота</h3>
+    <p>18 хв підтвердження гіпотези.<br>42 хв реальний результат.<br>Клієнт: «хочу другу.»</p>
   </div>
   <div class="num-pill">08 / 10</div>
 </section>
@@ -682,14 +682,18 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 <section class="slide" data-layout="case-closed" id="s10">
   <div class="case-bar">
-    <span class="num">CASE №586</span>
+    <span class="num">ГОТОВА ДО ПЕРЕДАЧІ</span>
     <span>СТАТУС: ЗАКРИТО</span>
   </div>
   <div class="finale">
     <span class="directive">НАПИШИ В ДИРЕКТ:</span>
     <div class="code-word">АНКЕТА</div>
+    <p class="instruction">Пришлю 10 питань, які я ставлю ДО сесії, анонімний портрет реальної клієнтки + шаблон промпту «Клієнт → Портрет».</p>
     
-    
+    <div class="stake-block">
+      <span class="stake-label">СТАВКА</span>
+      <p>До п'ятниці беру 8 практиків на перший заїзд live-налаштування. 45 хв Zoom — під твою нішу. Далі pipeline закривається до наступного потоку.</p>
+    </div>
   </div>
   <div class="seal">
     <span class="seal-stamp">JD · 2026</span>

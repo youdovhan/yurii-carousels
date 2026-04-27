@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Hormozi V2 — ПИТАННЯ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --smoke:#2B2522;--ivory:#F7F3EC;--amber:#8B5A2B;--blood-wine:#5C1A1B;
+  --sage:#6B7355;--paper-white:#FBF8F3;--mono-slate:#3D3A36;
+  --font-serif:'IBM Plex Serif',Georgia,serif;
+  --font-sans:'IBM Plex Sans',-apple-system,sans-serif;
+  --font-mono:'IBM Plex Mono','Courier New',monospace;
+  --size-h1:80px;--size-h2:56px;--size-body:32px;--size-label:20px;
+  --pad-slide:88px 96px;--gap-block:40px;
+  --shadow-polaroid:0 12px 32px rgba(0,0,0,0.30);
+  --corner:4px;
+}
+body{background:#1a1a1a;font-family:var(--font-sans)}
+.slide{
+  width:1080px;height:1350px;position:relative;overflow:hidden;
+  margin:20px auto;background:var(--ivory);color:var(--smoke);
+  padding:var(--pad-slide);display:flex;flex-direction:column;
+  font-family:var(--font-sans);
+}
+.slide::before{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/></svg>");
+  pointer-events:none;z-index:1;mix-blend-mode:multiply;
+}
+.slide::after{
+  content:"";position:absolute;inset:24px;
+  border:1px solid rgba(43,37,34,0.07);
+  pointer-events:none;z-index:1;
+}
+.slide > *{position:relative;z-index:2}
+
+/* LAYOUT 1: case-file-cover */
+[data-layout="case-file-cover"]{justify-content:space-between}
+[data-layout="case-file-cover"] .cover-body{flex:1;display:flex;flex-direction:column;justify-content:center;}
+[data-layout="case-file-cover"] .kicker{
+  font-family:var(--font-mono);font-weight:700;font-size:16px;letter-spacing:0.2em;
+  color:var(--blood-wine);display:inline-block;align-self:flex-start;
+  border:1.5px solid var(--blood-wine);padding:8px 14px;
+  transform:rotate(-2deg);margin-bottom:36px;text-transform:uppercase;
+}
+[data-layout="case-file-cover"] h1{
+  font-family:var(--font-serif);font-weight:700;font-size:var(--size-h1);line-height:1.08;
+  letter-spacing:-0.025em;color:var(--smoke);
+}
+[data-layout="case-file-cover"] h1 em{font-style:italic;color:var(--blood-wine);font-weight:700}
+[data-layout="case-file-cover"] .account{
+  font-family:var(--font-mono);font-weight:500;font-size:15px;letter-spacing:0.12em;
+  color:var(--mono-slate);text-transform:lowercase;padding-top:20px;
+}
+
+/* LAYOUT 2: field-notes */
+[data-layout="field-notes"]{background:var(--paper-white);
+  background-image:linear-gradient(to right,rgba(43,37,34,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(43,37,34,0.04) 1px,transparent 1px);
+  background-size:48px 48px;}
+[data-layout="field-notes"] .notes{list-style:none;padding:0;flex:1;display:flex;flex-direction:column;justify-content:center;}
+[data-layout="field-notes"] .notes li{
+  font-family:var(--font-serif);font-weight:500;font-size:30px;line-height:1.4;
+  color:var(--smoke);padding:18px 0;border-bottom:1px dashed rgba(43,37,34,0.18);
+  display:flex;gap:24px;
+}
+[data-layout="field-notes"] .notes li:last-child{border-bottom:none}
+[data-layout="field-notes"] .tick{color:var(--blood-wine);font-weight:700;flex-shrink:0}
+[data-layout="field-notes"] .notes li em{color:var(--amber);font-style:italic}
+[data-layout="field-notes"] .notes li strong{color:var(--blood-wine);font-weight:700}
+
+/* LAYOUT 3: statement-card */
+[data-layout="statement-card"]{justify-content:center}
+[data-layout="statement-card"] h2{
+  font-family:var(--font-serif);font-weight:700;font-size:var(--size-h2);line-height:1.2;
+  letter-spacing:-0.015em;color:var(--smoke);max-width:880px;
+}
+[data-layout="statement-card"] h2 em{font-style:italic;color:var(--blood-wine);border-bottom:3px solid var(--amber);padding-bottom:2px;}
+[data-layout="statement-card"] h2 strong{color:var(--blood-wine);font-weight:700;border-bottom:3px solid var(--amber);padding-bottom:2px;}
+[data-layout="statement-card"] .context{
+  font-family:var(--font-sans);font-weight:500;font-size:22px;line-height:1.5;
+  color:var(--mono-slate);margin-top:40px;display:block;
+}
+[data-layout="statement-card"] .sub-note{
+  font-family:var(--font-sans);font-style:italic;font-weight:500;font-size:22px;line-height:1.4;
+  color:var(--amber);margin-top:32px;max-width:760px;
+}
+
+/* LAYOUT 4: data-card */
+[data-layout="data-card"]{justify-content:center}
+[data-layout="data-card"] .figure{margin-bottom:24px}
+[data-layout="data-card"] .big{
+  font-family:var(--font-serif);font-weight:700;font-size:200px;line-height:0.95;
+  letter-spacing:-0.04em;color:var(--smoke);display:inline-block;
+}
+[data-layout="data-card"] .big .accent{color:var(--blood-wine);font-style:italic}
+[data-layout="data-card"] .unit{
+  font-family:var(--font-mono);font-weight:500;font-size:28px;letter-spacing:0.12em;
+  color:var(--mono-slate);display:inline-block;margin-left:16px;text-transform:lowercase;
+}
+[data-layout="data-card"] .context{
+  font-family:var(--font-sans);font-weight:500;font-size:28px;line-height:1.4;
+  color:var(--smoke);margin-top:32px;max-width:880px;
+}
+[data-layout="data-card"] .context strong{color:var(--blood-wine);font-weight:700}
+
+/* LAYOUT 6: evidence-board */
+[data-layout="evidence-board"]{background:var(--smoke);color:var(--ivory);}
+[data-layout="evidence-board"]::after{border-color:rgba(247,243,236,0.07)}
+[data-layout="evidence-board"] .board{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:36px;
+  margin:auto 0;
+}
+[data-layout="evidence-board"] .polaroid{
+  background:var(--paper-white);color:var(--smoke);
+  padding:24px 24px 40px;box-shadow:var(--shadow-polaroid);border-radius:var(--corner);
+}
+[data-layout="evidence-board"] .polaroid:nth-child(1){transform:rotate(-1.5deg)}
+[data-layout="evidence-board"] .polaroid:nth-child(2){transform:rotate(1deg)}
+[data-layout="evidence-board"] .polaroid:nth-child(3){transform:rotate(0.5deg)}
+[data-layout="evidence-board"] .polaroid:nth-child(4){transform:rotate(-2deg)}
+[data-layout="evidence-board"] .photo{
+  background:linear-gradient(135deg,var(--mono-slate) 0%,var(--smoke) 100%);
+  height:120px;margin-bottom:18px;position:relative;overflow:hidden;border-radius:2px;
+}
+[data-layout="evidence-board"] .photo::before{
+  content:"";position:absolute;inset:0;
+  background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.05) 0 2px,transparent 2px 6px);
+}
+[data-layout="evidence-board"] .pol-num{
+  font-family:var(--font-mono);font-weight:700;font-size:13px;letter-spacing:0.15em;
+  color:var(--blood-wine);display:block;margin-bottom:8px;
+}
+[data-layout="evidence-board"] .pol-title{
+  font-family:var(--font-serif);font-weight:700;font-size:22px;line-height:1.2;
+  color:var(--smoke);display:block;margin-bottom:8px;
+}
+[data-layout="evidence-board"] .pol-note{
+  font-family:var(--font-sans);font-weight:400;font-size:16px;line-height:1.4;
+  color:var(--mono-slate);
+}
+
+/* LAYOUT 5: quote-pull */
+[data-layout="quote-pull"]{justify-content:center}
+[data-layout="quote-pull"] .qmark{
+  font-family:var(--font-serif);font-weight:700;font-size:220px;line-height:0.6;
+  color:var(--amber);display:block;margin-bottom:20px;
+}
+[data-layout="quote-pull"] blockquote{
+  font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:44px;line-height:1.35;
+  color:var(--smoke);margin:0;max-width:860px;
+}
+[data-layout="quote-pull"] blockquote strong{font-style:italic;color:var(--blood-wine);font-weight:700}
+[data-layout="quote-pull"] .author{
+  margin-top:60px;padding-top:20px;border-top:1px solid var(--mono-slate);
+  font-family:var(--font-sans);font-weight:600;font-size:20px;color:var(--smoke);
+}
+
+/* LAYOUT 7: comparison-split */
+[data-layout="comparison-split"]{
+  display:grid;grid-template-columns:1fr 1px 1fr;gap:48px;align-items:center;align-content:center;
+}
+[data-layout="comparison-split"] .col{padding:40px 0}
+[data-layout="comparison-split"] .col-label{
+  font-family:var(--font-sans);font-weight:700;font-size:22px;letter-spacing:0.04em;
+  display:block;margin-bottom:20px;text-transform:uppercase;
+}
+[data-layout="comparison-split"] .before .col-label{color:var(--mono-slate)}
+[data-layout="comparison-split"] .after .col-label{color:var(--blood-wine)}
+[data-layout="comparison-split"] h3{
+  font-family:var(--font-serif);font-weight:700;font-size:38px;line-height:1.15;
+  color:var(--smoke);margin-bottom:18px;letter-spacing:-0.01em;
+}
+[data-layout="comparison-split"] .after h3{color:var(--blood-wine)}
+[data-layout="comparison-split"] .col p{
+  font-family:var(--font-sans);font-weight:500;font-size:24px;line-height:1.5;
+  color:var(--smoke);
+}
+[data-layout="comparison-split"] .col p strong{color:var(--blood-wine);font-weight:700}
+[data-layout="comparison-split"] .col p em{color:var(--mono-slate);font-style:italic}
+[data-layout="comparison-split"] .before{opacity:0.55}
+[data-layout="comparison-split"] .divider{background:var(--mono-slate);height:70%;justify-self:center;width:1px;}
+
+/* LAYOUT 8: cliff-hanger */
+[data-layout="cliff-hanger"]{
+  background:linear-gradient(180deg,var(--ivory) 0%,rgba(107,115,85,0.10) 100%);
+  justify-content:center;position:relative;
+}
+[data-layout="cliff-hanger"] .teaser{
+  font-family:var(--font-mono);font-weight:500;font-size:22px;letter-spacing:0.15em;
+  color:var(--sage);margin-bottom:36px;display:block;text-transform:uppercase;
+}
+[data-layout="cliff-hanger"] h2{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.2;
+  color:var(--smoke);letter-spacing:-0.015em;max-width:880px;
+}
+[data-layout="cliff-hanger"] h2 em{font-style:italic;color:var(--blood-wine);font-weight:700;border-bottom:3px solid var(--amber);}
+[data-layout="cliff-hanger"] .hint{
+  font-family:var(--font-mono);font-weight:700;font-size:16px;letter-spacing:0.3em;
+  color:var(--amber);position:absolute;bottom:80px;right:96px;text-transform:uppercase;
+}
+
+/* LAYOUT 9: case-closed */
+[data-layout="case-closed"]{background:var(--smoke);color:var(--ivory);justify-content:space-between;}
+[data-layout="case-closed"]::after{border-color:rgba(247,243,236,0.10)}
+[data-layout="case-closed"] .finale{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center;}
+[data-layout="case-closed"] .directive{
+  font-family:var(--font-mono);font-weight:500;font-size:24px;letter-spacing:0.18em;
+  color:var(--amber);text-transform:uppercase;
+}
+[data-layout="case-closed"] .code-word{
+  font-family:var(--font-mono);font-weight:700;font-size:140px;line-height:0.95;letter-spacing:0.06em;
+  color:var(--blood-wine);margin:24px auto 28px;text-align:center;
+  border:4px solid var(--blood-wine);padding:18px 36px;
+  background:rgba(92,26,27,0.10);text-transform:uppercase;display:inline-block;
+}
+[data-layout="case-closed"] .instruction{
+  font-family:var(--font-sans);font-weight:500;font-size:24px;line-height:1.4;
+  color:var(--paper-white);max-width:760px;margin:0 auto;
+}
+[data-layout="case-closed"] .stake-block{
+  border:1.5px solid var(--amber);padding:22px 30px;margin:28px auto 0;
+  max-width:680px;background:rgba(139,90,43,0.06);
+}
+[data-layout="case-closed"] .stake-block .stake-label{
+  font-family:var(--font-mono);font-weight:700;font-size:14px;letter-spacing:0.22em;
+  color:var(--amber);display:block;margin-bottom:12px;text-align:center;text-transform:uppercase;
+}
+[data-layout="case-closed"] .stake-block p{
+  font-family:var(--font-sans);font-weight:500;font-size:20px;line-height:1.4;
+  color:var(--paper-white);text-align:center;
+}
+[data-layout="case-closed"] .stake-block p strong{color:var(--amber);font-weight:700}
+[data-layout="case-closed"] .bottom-tag{
+  font-family:var(--font-mono);font-weight:500;font-size:14px;letter-spacing:0.15em;
+  color:rgba(247,243,236,0.45);text-align:right;padding-top:18px;text-transform:lowercase;
+}
+</style>
+</head>
+<body>
+
+<!-- СЛАЙД 1: ОБКЛАДИНКА -->
+<section class="slide" data-layout="case-file-cover" id="s1">
+  <div class="cover-body">
+    <span class="kicker">РОЗСЛІДУВАННЯ</span>
+    <h1>Одне питання. 40 секунд тиші. Потім клієнт <em>почав сам</em> — те, що мовчав 3 сесії.</h1>
+    <span class="account">@yurii_dovhan</span>
+  </div>
+</section>
+
+
+<!-- СЛАЙД 2: СЦЕНА -->
+<section class="slide" data-layout="field-notes" id="s2">
+  <ol class="notes">
+    <li><span class="tick">—</span><span>31 хвилина. Клієнт <strong>«застрягав»</strong> вже третю зустріч поспіль</span></li>
+    <li><span class="tick">—</span><span>До цього: 26 хвилин <em>правильних і корисних</em> питань</span></li>
+    <li><span class="tick">—</span><span>Я поставив одне питання. І <strong>замовчав</strong></span></li>
+    <li><span class="tick">—</span><span><strong>40 секунд</strong> тиші. Я не заповнював</span></li>
+    <li><span class="tick">—</span><span>Клієнт почав говорити. <strong>18 хвилин без зупинки</strong></span></li>
+  </ol>
+</section>
+
+
+<!-- СЛАЙД 3: СУТЬ -->
+<section class="slide" data-layout="statement-card" id="s3">
+  <h2>Це <em>не техніка</em>.<br>Це рішення <strong>не заповнювати</strong> тишу.</h2>
+  <span class="context">— Більшість тренерів витримує 7 секунд. Потім «допомагає».</span>
+  <p class="sub-note">Саме тоді вони забирають у клієнта його власну роботу.</p>
+</section>
+
+
+<!-- СЛАЙД 4: ЦИФРА -->
+<section class="slide" data-layout="data-card" id="s4">
+  <div class="figure">
+    <span class="big"><span class="accent">40</span></span>
+    <span class="unit">секунд</span>
+  </div>
+  <p class="context">= <strong>3 сесії</strong>, які не могли пробитись до цього.<br><br>Клієнт говорив після цього 18 хвилин сам.<br>Сказав те, що «не міг сформулювати» три зустрічі.</p>
+</section>
+
+
+<!-- СЛАЙД 5: МОМЕНТ -->
+<section class="slide" data-layout="statement-card" id="s5">
+  <h2>«Що тебе <em>насправді</em> зупиняє?»</h2>
+  <span class="context">— Одне питання. Без підказки відповіді.</span>
+  <p class="sub-note">40 секунд тиші.<br>Потім — 18 хвилин. Усе.</p>
+</section>
+
+
+<!-- СЛАЙД 6: EVIDENCE BOARD -->
+<section class="slide" data-layout="evidence-board" id="s6">
+  <div class="board">
+
+    <div class="polaroid">
+      <div class="photo"></div>
+      <span class="pol-num">01</span>
+      <span class="pol-title">МОМЕНТ</span>
+      <span class="pol-note">Знайти точку де клієнт «застряг». Не заповнювати — чекати.</span>
+    </div>
+
+    <div class="polaroid">
+      <div class="photo"></div>
+      <span class="pol-num">02</span>
+      <span class="pol-title">ПИТАННЯ</span>
+      <span class="pol-note">Одне. Відкрите. Без «чи», без «може», без підказки відповіді.</span>
+    </div>
+
+    <div class="polaroid">
+      <div class="photo"></div>
+      <span class="pol-num">03</span>
+      <span class="pol-title">ТИША</span>
+      <span class="pol-note">40 секунд мінімум. Більшість тренерів витримує 7. Потім «рятує».</span>
+    </div>
+
+    <div class="polaroid">
+      <div class="photo"></div>
+      <span class="pol-num">04</span>
+      <span class="pol-title">ПРОСТІР</span>
+      <span class="pol-note">Не перебивати коли почав. Навіть якщо є пауза між реченнями.</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- СЛАЙД 7: ЦИТАТА -->
+<section class="slide" data-layout="quote-pull" id="s7">
+  <span class="qmark">«</span>
+  <blockquote>Я не дав відповідь.<br>Я дав простір для питання.<br><br>Різниця — в одному рішенні:<br><strong>не заповнювати тишу.</strong><br><br>Клієнт зробив решту сам.</blockquote>
+  <div class="author">— Юрій Довган</div>
+</section>
+
+
+<!-- СЛАЙД 8: ПОРІВНЯННЯ -->
+<section class="slide" data-layout="comparison-split" id="s8">
+  <div class="col before">
+    <span class="col-label">БУЛО</span>
+    <h3>26 хвилин<br>«правильних» питань</h3>
+    <p>
+      <em>Три зустрічі поспіль.</em><br>
+      Клієнт «розумів, але не міг».<br>
+      Я давав корисні, логічні,<br>
+      структуровані питання.<br><br>
+      Застряг на одному місці.
+    </p>
+  </div>
+  <div class="divider"></div>
+  <div class="col after">
+    <span class="col-label">СТАЛО</span>
+    <h3>1 питання +<br>40 секунд</h3>
+    <p>
+      <strong>18 хвилин</strong> власного монологу.<br>
+      Пробило те, що не йшло<br>
+      три зустрічі підряд.<br><br>
+      <strong>Клієнт знайшов сам.</strong>
+    </p>
+  </div>
+</section>
+
+
+<!-- СЛАЙД 9: HOOK -->
+<section class="slide" data-layout="cliff-hanger" id="s9">
+  <span class="teaser">А ТЕПЕР — ЩО ЦЕ ЛАМАЄ</span>
+  <h2>Коли клієнт мовчить — більшість тренерів <em>починає рятувати</em>.</h2>
+  <span class="hint">ДАЛІ →</span>
+</section>
+
+
+<!-- СЛАЙД 10: CTA -->
+<section class="slide" data-layout="case-closed" id="s10">
+  <div class="finale">
+    <span class="directive">НАПИШИ В ДИРЕКТ:</span>
+    <div class="code-word">ПИТАННЯ</div>
+    <p class="instruction">У відповідь — 7 питань які я використовую.<br>З контекстом коли і чому кожне.</p>
+    <div class="stake-block">
+      <span class="stake-label">СТАВКА</span>
+      <p>Якщо після прикладу скажеш<br>«не моє» — <strong>не напишу жодного разу</strong>.<br>Стейк мій.</p>
+    </div>
+  </div>
+  <div class="bottom-tag">@yurii_dovhan</div>
+</section>
+
+</body>
+</html>

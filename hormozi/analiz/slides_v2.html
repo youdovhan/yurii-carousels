@@ -176,12 +176,11 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   max-width:760px;
 }
 
-/* === LAYOUT 3: evidence-board === */
+/* === LAYOUT 3: evidence-board (paper variant — light only) === */
 [data-layout="evidence-board"]{
-  background:var(--smoke);
-  color:var(--ivory);
+  background:var(--ivory);
+  color:var(--smoke);
 }
-[data-layout="evidence-board"]::after{border-color:rgba(247,243,236,0.07)}
 [data-layout="evidence-board"] .slide-label{
   color:var(--amber);
   margin-bottom:50px;
@@ -191,24 +190,20 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   flex:1;align-items:center;
 }
 [data-layout="evidence-board"] .board.cols-2{grid-template-columns:repeat(2,1fr);gap:50px}
+[data-layout="evidence-board"] .board.cols-4{grid-template-columns:repeat(2,1fr);gap:40px;align-content:center}
 [data-layout="evidence-board"] .board.cols-5{grid-template-columns:repeat(5,1fr);gap:18px}
+[data-layout="evidence-board"] .board{align-content:center}
 [data-layout="evidence-board"] .polaroid{
-  background:var(--paper-white);color:var(--smoke);
-  padding:18px 18px 36px;
+  background:#FFFFFF;color:var(--smoke);
+  padding:32px 28px 36px;
   transform:rotate(var(--r,0deg));
-  box-shadow:var(--shadow-polaroid);
+  box-shadow:0 14px 32px rgba(43,37,34,0.18);
   border-radius:var(--corner);
+  border:1px solid rgba(43,37,34,0.08);
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:380px;
 }
-[data-layout="evidence-board"] .board.cols-5 .polaroid{padding:14px 14px 24px}
-[data-layout="evidence-board"] .photo{
-  background:linear-gradient(135deg, var(--mono-slate) 0%, var(--smoke) 100%);
-  aspect-ratio:1;margin-bottom:14px;
-  position:relative;overflow:hidden;
-}
-[data-layout="evidence-board"] .photo::before{
-  content:"";position:absolute;inset:0;
-  background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px);
-}
+[data-layout="evidence-board"] .board.cols-5 .polaroid{padding:20px 16px 24px;min-height:280px}
 [data-layout="evidence-board"] .num{
   font-family:var(--font-mono);
   font-weight:700;font-size:14px;letter-spacing:0.15em;
@@ -326,26 +321,26 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="data-card"] .figure{margin-bottom:24px}
 [data-layout="data-card"] .big{
   font-family:var(--font-serif);
-  font-weight:700;font-size:200px;line-height:0.95;letter-spacing:-0.04em;
+  font-weight:700;font-size:160px;line-height:1.0;letter-spacing:-0.04em;
   color:var(--smoke);
-  display:inline-block;
+  display:block;
 }
 /* HORMOZI accent: × multiplier in amber */
 [data-layout="data-card"] .big em{
-  font-style:normal;color:var(--amber);font-size:120px;
+  font-style:normal;color:var(--amber);font-size:100px;
   padding:0 12px;font-weight:700;
 }
 [data-layout="data-card"] .big .accent{
   color:var(--blood-wine);font-style:italic;
 }
 [data-layout="data-card"] .big .equals{
-  color:var(--amber);font-style:italic;font-size:120px;
+  color:var(--amber);font-style:italic;font-size:100px;
 }
 [data-layout="data-card"] .unit{
   font-family:var(--font-mono);
   font-weight:500;font-size:28px;letter-spacing:0.12em;
   color:var(--mono-slate);
-  display:inline-block;margin-left:16px;
+  display:block;margin-top:24px;
   text-transform:lowercase;
 }
 [data-layout="data-card"] .context{
@@ -437,18 +432,17 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   z-index:3;
 }
 
-/* === LAYOUT 9: case-closed (NIGHT VARIANT + STAKE) === */
+/* === LAYOUT 9: case-closed (paper variant + STAKE — light only) === */
 [data-layout="case-closed"]{
-  background:var(--smoke);color:var(--ivory);
+  background:var(--ivory);color:var(--smoke);
   justify-content:space-between;
 }
-[data-layout="case-closed"]::after{border-color:rgba(247,243,236,0.10)}
 [data-layout="case-closed"] .case-bar{
-  color:var(--amber);
-  border-bottom:1px solid var(--amber);
+  color:var(--mono-slate);
+  border-bottom:1px solid var(--mono-slate);
   font-weight:700;letter-spacing:0.18em;
 }
-[data-layout="case-closed"] .case-bar .num{color:var(--amber)}
+[data-layout="case-closed"] .case-bar .num{color:var(--blood-wine)}
 [data-layout="case-closed"] .finale{
   flex:1;display:flex;flex-direction:column;justify-content:center;
   text-align:center;
@@ -474,7 +468,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="case-closed"] .instruction{
   font-family:var(--font-sans);
   font-weight:500;font-size:24px;line-height:1.4;
-  color:var(--paper-white);
+  color:var(--smoke);
   max-width:760px;
   margin:0 auto;
 }
@@ -497,10 +491,10 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="case-closed"] .stake-block p{
   font-family:var(--font-sans);
   font-weight:500;font-size:20px;line-height:1.4;
-  color:var(--paper-white);
+  color:var(--smoke);
   text-align:center;
 }
-[data-layout="case-closed"] .stake-block p strong{color:var(--amber);font-weight:700}
+[data-layout="case-closed"] .stake-block p strong{color:var(--blood-wine);font-weight:700}
 [data-layout="case-closed"] .seal{
   display:flex;justify-content:space-between;align-items:center;
   font-family:var(--font-mono);
@@ -517,7 +511,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 /* === LAYOUT 10: cliff-hanger === */
 [data-layout="cliff-hanger"]{
-  background:linear-gradient(180deg, var(--ivory) 0%, rgba(107,115,85,0.10) 100%);
+  background:var(--ivory);
   justify-content:center;position:relative;
 }
 [data-layout="cliff-hanger"] .teaser{
@@ -566,15 +560,14 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   color:var(--mono-slate);
   z-index:3;text-transform:uppercase;
 }
-[data-layout="case-closed"] .num-pill,
-[data-layout="evidence-board"] .num-pill{color:rgba(247,243,236,0.5)}
+/* num-pill default color works on both case-closed and evidence-board (paper variants now) */
 
 </style>
 </head>
 <body>
 
 <section class="slide" data-layout="case-file-cover" id="s1">
-  <div class="case-bar"><span class="num">CASE №162</span><span>DOSSIER · 2026·04</span></div>
+  <div class="case-bar"><span class="num">CASE №191</span><span>DOSSIER · 2026·04</span></div>
   <div class="cover-body">
     <span class="kicker">РОЗСЛІДУВАННЯ · АНАЛІЗ 01</span>
     <h1>5 хвилин читання. 15 сторінок. <em>5 пропущених тригерів</em> — у одній твоїй сесії.</h1>
@@ -611,10 +604,10 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 <section class="slide" data-layout="data-card" id="s4">
   <span class="data-label">АНАЛІЗ 04 · РОЗРАХУНОК</span>
   <div class="figure">
-    <span class="big">**$0.20</span>
+    <span class="big">$0.20</span>
     <span class="unit">за 15-сторінкову карту патернів</span>
   </div>
-  <p class="context">15 сторінок аналізу мовлення за вартість<br>**однієї чашки кави з круасаном.</p>
+  <p class="context">15 сторінок аналізу мовлення за вартість<br>однієї чашки кави з круасаном.</p>
   <span class="source">Розрахунок на 4 сесії/місяць, $25 за воркшоп, самостійна обробка</span>
   <div class="num-pill">04 / 10</div>
 </section>
@@ -631,8 +624,24 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 <section class="slide" data-layout="evidence-board" id="s6">
   <span class="slide-label">АНАЛІЗ 06 · 4 ШАРИ АНАЛІЗУ</span>
-  <div class="board ">
+  <div class="board cols-4">
     
+      <article class="polaroid" style="--r:-2deg">
+        <span class="num">01</span>
+        <p class="note">ШВИДКІСТЬ<br>Скільки говорив сам vs клієнт. У відсотках і хвилинах.</p>
+      </article>
+      <article class="polaroid" style="--r:1.5deg">
+        <span class="num">02</span>
+        <p class="note">ПОВТОРИ<br>10 твоїх улюблених слів. Звороти, які ти не чуєш у собі.</p>
+      </article>
+      <article class="polaroid" style="--r:-2deg">
+        <span class="num">03</span>
+        <p class="note">ТРИГЕРИ<br>5 моментів де варто було пауза. Ти пішов далі.</p>
+      </article>
+      <article class="polaroid" style="--r:1.5deg">
+        <span class="num">04</span>
+        <p class="note">АЛЬТЕРНАТИВИ<br>3 формулювання для ключових точок. Глибші за твої.</p>
+      </article>
   </div>
   
   <div class="num-pill">06 / 10</div>
@@ -641,7 +650,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 <section class="slide" data-layout="quote-pull" id="s7">
   <span class="qmark">«</span>
-  <blockquote>*Платив супервізору<br>$150 раз на 2 місяці.</blockquote>
+  <blockquote>Платив супервізору $150 раз на 2 місяці. Перевірив 4 сесії за один вечір сам. Не заміна — <em>доповнення</em>. Супервізор бачить те, що я йому показав. AI — те, що я сам не помітив.</blockquote>
   <div class="quote-foot">
     <span class="author">— JD, DETECTIVE</span>
     <span class="ref">CASE №051 · КВІТЕНЬ 2026</span>
@@ -654,14 +663,14 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 <section class="slide" data-layout="comparison-split" id="s8">
   <div class="col before">
     <span class="col-label">БУЛО</span>
-    <h3><strong>Layout:</strong> `comparison-split`</h3>
-    <p><strong>BEFORE:</strong><br><strong>БУЛО</strong><br><em>Раз на 2 місяці</em><br>$150 за 60 хв супервізії.<br>= <strong>$30 за тиждень</strong> твоєї практики.<br>1-2 кейси на зустріч.<br><strong>AFTER:</strong><br><strong>СТАЛО</strong><br><em>Один вечір — один раз.</em><br>$25 за воркшоп.<br><strong>4 сесії проаналізовано.</strong><br>15 сторінок карти на кожну.<br><strong>Bottom note:</strong> Супервізор залишається. Додається дзеркало стилю між зустрічами.</p>
+    <h3>BEFORE:</h3>
+    <p><em>Раз на 2 місяці</em><br>$150 за 60 хв супервізії.<br>= $30 за тиждень твоєї практики.<br>1-2 кейси на зустріч.<br>AFTER:</p>
   </div>
   <div class="divider"></div>
   <div class="col after">
     <span class="col-label">СТАЛО</span>
-    
-    <p></p>
+    <h3><em>Один вечір — один раз.</em></h3>
+    <p>$25 за воркшоп.<br>4 сесії проаналізовано.<br>15 сторінок карти на кожну.<br>Bottom note: Супервізор залишається. Додається дзеркало стилю між зустрічами.</p>
   </div>
   <div class="num-pill">08 / 10</div>
 </section>
@@ -669,7 +678,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 <section class="slide" data-layout="cliff-hanger" id="s9">
   <span class="teaser">А ТЕПЕР — НАЙСЛИЗЬКІШЕ</span>
-  <h2>GDPR — окрема глава.</h2>
+  <h2>GDPR — <em>окрема глава.</em> Безпека <em>до</em> завантаження транскрипту — анонімізація за 3 хвилини. Про це — у директі, при коді.</h2>
   <span class="hint">АНАЛІЗ 10 →</span>
   <div class="num-pill">09 / 10</div>
 </section>
@@ -677,18 +686,14 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 <section class="slide" data-layout="case-closed" id="s10">
   <div class="case-bar">
-    <span class="num">CASE №162</span>
+    <span class="num">CASE №191</span>
     <span>СТАТУС: ЗАКРИТО</span>
   </div>
   <div class="finale">
     <span class="directive">НАПИШИ В ДИРЕКТ:</span>
-    <div class="code-word">БУЛО</div>
+    <div class="code-word">АНАЛІЗ</div>
     <p class="instruction">У відповідь — приклад карти.<br>Анонімізованої, з моєї сесії.</p>
     
-    <div class="stake-block">
-      <span class="stake-label">СТАВКА</span>
-      <p>:**<br>*Якщо після прикладу скажеш<br>«не моє» — не напишу тобі жодного разу.*<br><br>**</p>
-    </div>
   </div>
   <div class="seal">
     <span class="seal-stamp">JD · 2026</span>

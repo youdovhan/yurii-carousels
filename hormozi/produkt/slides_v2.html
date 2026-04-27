@@ -176,12 +176,11 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   max-width:760px;
 }
 
-/* === LAYOUT 3: evidence-board === */
+/* === LAYOUT 3: evidence-board (paper variant — light only) === */
 [data-layout="evidence-board"]{
-  background:var(--smoke);
-  color:var(--ivory);
+  background:var(--ivory);
+  color:var(--smoke);
 }
-[data-layout="evidence-board"]::after{border-color:rgba(247,243,236,0.07)}
 [data-layout="evidence-board"] .slide-label{
   color:var(--amber);
   margin-bottom:50px;
@@ -191,24 +190,20 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   flex:1;align-items:center;
 }
 [data-layout="evidence-board"] .board.cols-2{grid-template-columns:repeat(2,1fr);gap:50px}
+[data-layout="evidence-board"] .board.cols-4{grid-template-columns:repeat(2,1fr);gap:40px;align-content:center}
 [data-layout="evidence-board"] .board.cols-5{grid-template-columns:repeat(5,1fr);gap:18px}
+[data-layout="evidence-board"] .board{align-content:center}
 [data-layout="evidence-board"] .polaroid{
-  background:var(--paper-white);color:var(--smoke);
-  padding:18px 18px 36px;
+  background:#FFFFFF;color:var(--smoke);
+  padding:32px 28px 36px;
   transform:rotate(var(--r,0deg));
-  box-shadow:var(--shadow-polaroid);
+  box-shadow:0 14px 32px rgba(43,37,34,0.18);
   border-radius:var(--corner);
+  border:1px solid rgba(43,37,34,0.08);
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:380px;
 }
-[data-layout="evidence-board"] .board.cols-5 .polaroid{padding:14px 14px 24px}
-[data-layout="evidence-board"] .photo{
-  background:linear-gradient(135deg, var(--mono-slate) 0%, var(--smoke) 100%);
-  aspect-ratio:1;margin-bottom:14px;
-  position:relative;overflow:hidden;
-}
-[data-layout="evidence-board"] .photo::before{
-  content:"";position:absolute;inset:0;
-  background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px);
-}
+[data-layout="evidence-board"] .board.cols-5 .polaroid{padding:20px 16px 24px;min-height:280px}
 [data-layout="evidence-board"] .num{
   font-family:var(--font-mono);
   font-weight:700;font-size:14px;letter-spacing:0.15em;
@@ -326,26 +321,26 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="data-card"] .figure{margin-bottom:24px}
 [data-layout="data-card"] .big{
   font-family:var(--font-serif);
-  font-weight:700;font-size:200px;line-height:0.95;letter-spacing:-0.04em;
+  font-weight:700;font-size:160px;line-height:1.0;letter-spacing:-0.04em;
   color:var(--smoke);
-  display:inline-block;
+  display:block;
 }
 /* HORMOZI accent: × multiplier in amber */
 [data-layout="data-card"] .big em{
-  font-style:normal;color:var(--amber);font-size:120px;
+  font-style:normal;color:var(--amber);font-size:100px;
   padding:0 12px;font-weight:700;
 }
 [data-layout="data-card"] .big .accent{
   color:var(--blood-wine);font-style:italic;
 }
 [data-layout="data-card"] .big .equals{
-  color:var(--amber);font-style:italic;font-size:120px;
+  color:var(--amber);font-style:italic;font-size:100px;
 }
 [data-layout="data-card"] .unit{
   font-family:var(--font-mono);
   font-weight:500;font-size:28px;letter-spacing:0.12em;
   color:var(--mono-slate);
-  display:inline-block;margin-left:16px;
+  display:block;margin-top:24px;
   text-transform:lowercase;
 }
 [data-layout="data-card"] .context{
@@ -437,18 +432,17 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   z-index:3;
 }
 
-/* === LAYOUT 9: case-closed (NIGHT VARIANT + STAKE) === */
+/* === LAYOUT 9: case-closed (paper variant + STAKE — light only) === */
 [data-layout="case-closed"]{
-  background:var(--smoke);color:var(--ivory);
+  background:var(--ivory);color:var(--smoke);
   justify-content:space-between;
 }
-[data-layout="case-closed"]::after{border-color:rgba(247,243,236,0.10)}
 [data-layout="case-closed"] .case-bar{
-  color:var(--amber);
-  border-bottom:1px solid var(--amber);
+  color:var(--mono-slate);
+  border-bottom:1px solid var(--mono-slate);
   font-weight:700;letter-spacing:0.18em;
 }
-[data-layout="case-closed"] .case-bar .num{color:var(--amber)}
+[data-layout="case-closed"] .case-bar .num{color:var(--blood-wine)}
 [data-layout="case-closed"] .finale{
   flex:1;display:flex;flex-direction:column;justify-content:center;
   text-align:center;
@@ -474,7 +468,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="case-closed"] .instruction{
   font-family:var(--font-sans);
   font-weight:500;font-size:24px;line-height:1.4;
-  color:var(--paper-white);
+  color:var(--smoke);
   max-width:760px;
   margin:0 auto;
 }
@@ -497,10 +491,10 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 [data-layout="case-closed"] .stake-block p{
   font-family:var(--font-sans);
   font-weight:500;font-size:20px;line-height:1.4;
-  color:var(--paper-white);
+  color:var(--smoke);
   text-align:center;
 }
-[data-layout="case-closed"] .stake-block p strong{color:var(--amber);font-weight:700}
+[data-layout="case-closed"] .stake-block p strong{color:var(--blood-wine);font-weight:700}
 [data-layout="case-closed"] .seal{
   display:flex;justify-content:space-between;align-items:center;
   font-family:var(--font-mono);
@@ -517,7 +511,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 /* === LAYOUT 10: cliff-hanger === */
 [data-layout="cliff-hanger"]{
-  background:linear-gradient(180deg, var(--ivory) 0%, rgba(107,115,85,0.10) 100%);
+  background:var(--ivory);
   justify-content:center;position:relative;
 }
 [data-layout="cliff-hanger"] .teaser{
@@ -566,15 +560,14 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
   color:var(--mono-slate);
   z-index:3;text-transform:uppercase;
 }
-[data-layout="case-closed"] .num-pill,
-[data-layout="evidence-board"] .num-pill{color:rgba(247,243,236,0.5)}
+/* num-pill default color works on both case-closed and evidence-board (paper variants now) */
 
 </style>
 </head>
 <body>
 
 <section class="slide" data-layout="case-file-cover" id="s1">
-  <div class="case-bar"><span class="num">CASE №129</span><span>DOSSIER · 2026·04</span></div>
+  <div class="case-bar"><span class="num">CASE №506</span><span>DOSSIER · 2026·04</span></div>
   <div class="cover-body">
     <span class="kicker">PRE-SALE PROTOCOL</span>
     <h1>5 ідей продукту. <em>14 днів.</em> $0 → $5 880.</h1>
@@ -611,7 +604,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 <section class="slide" data-layout="data-card" id="s4">
   <span class="data-label">ДОКАЗ №4 · ROI MATH</span>
   <div class="figure">
-    <span class="big">12<em>×</em>$490<em class="equals">=</em>$5 880</span>
+    <span class="big">12<em>×</em>$490<br><em class="equals">=</em>$5 880</span>
     <span class="unit">за 14 днів</span>
   </div>
   <p class="context">12 фаундерів pre-sale.<br>Один pre-sale пост у LinkedIn.<br>Один вечір звіту.</p>
@@ -622,7 +615,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 <section class="slide" data-layout="statement-card" id="s5">
   <span class="slide-label">ПРОДУКТ 05 · SUNK COST</span>
-  <h2>Ти <em>12 років</em> працюєш руками.</h2>
+  <h2>Ти <em>12 років</em> працюєш руками. <em>Service of one.</em> Без системи. Без масштабу. Твоє плато — <em>$15K/міс.</em></h2>
   <span class="context">— До цього вечора</span>
   
   <div class="num-pill">05 / 10</div>
@@ -631,17 +624,19 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 <section class="slide" data-layout="evidence-board" id="s6">
   <span class="slide-label">ДОКАЗИ · СТОРІНКА 7 ЗВІТУ</span>
-  <div class="board cols-2">
+  <div class="board ">
     
       <article class="polaroid" style="--r:-2deg">
-        <div class="photo"></div>
         <span class="num">01</span>
-        <p class="note">3 фаундери, Q1 2026</p>
+        <p class="note">№03 · IDEA<br>Operational Playbook для Series A<br>Як вибудувати sales без VP</p>
       </article>
       <article class="polaroid" style="--r:1.5deg">
-        <div class="photo"></div>
         <span class="num">02</span>
-        <p class="note">4 фаундери, Q1 2026</p>
+        <p class="note">CITATION · 01<br>«я не знаю, кого наймати першим»<br>— 3 фаундери, Q1 2026</p>
+      </article>
+      <article class="polaroid" style="--r:-2deg">
+        <span class="num">03</span>
+        <p class="note">CITATION · 02<br>«хотів би playbook — я ж не виросла з цього»<br>— 4 фаундери, Q1 2026</p>
       </article>
   </div>
   
@@ -664,14 +659,14 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 <section class="slide" data-layout="comparison-split" id="s8">
   <div class="col before">
     <span class="col-label">БУЛО</span>
-    <h3><strong>БУЛО (left col, opacity 0.6):</strong></h3>
-    <p><em>Label:</em> REFORGE<br><em>H3:</em> $2 000 · 4 тижні<br><em>P:</em> Універсальні фреймворки.<br>Чужі кейси.<br>Ти сам застосовуєш.<br><strong>|</strong> (divider mono-slate)<br><strong>СТАЛО (right col, Blood-Wine label):</strong><br><em>Label:</em> ТВІЙ ВЕЧІР<br><em>H3:</em> $25 · 2 години<br><em>P:</em> Твої транскрипти.<br>Твої клієнти. Їхні слова.<br>Звіт на руках.</p>
+    <h3>$2 000 · 4 тижні</h3>
+    <p>Універсальні фреймворки.<br>Чужі кейси.<br>Ти сам застосовуєш.</p>
   </div>
   <div class="divider"></div>
   <div class="col after">
     <span class="col-label">СТАЛО</span>
-    
-    <p></p>
+    <h3>$25 · 2 години</h3>
+    <p>Твої транскрипти.<br>Твої клієнти. Їхні слова.<br>Звіт на руках.</p>
   </div>
   <div class="num-pill">08 / 10</div>
 </section>
@@ -687,7 +682,7 @@ body{background:#1a1a1a;font-family:var(--font-sans)}
 
 <section class="slide" data-layout="case-closed" id="s10">
   <div class="case-bar">
-    <span class="num">CASE №129</span>
+    <span class="num">CASE №506</span>
     <span>СТАТУС: ЗАКРИТО</span>
   </div>
   <div class="finale">
