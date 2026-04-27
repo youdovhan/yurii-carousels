@@ -70,7 +70,15 @@ const tpl = fs.readFileSync(tplFile, 'utf8');
 const codeWordMatch = src.match(/\*\*([А-ЯҐЄІЇ]{2,})\*\*/);
 const codeWord = codeWordMatch ? codeWordMatch[1] : slug.toUpperCase();
 const brandName = '@yurii_dovhan';
-const caseNum = String(Math.floor(Math.random() * 900) + 100); // 100-999
+// Case number: 1) explicit "CASE №NNN" in source text, 2) digits in slug ("type-01-..." → "101"),
+// 3) random fallback. Stable per text/slug so re-renders give the same number.
+const explicitCaseMatch = src.match(/CASE\s*[№N#]\s*(\d{2,4})/i);
+const slugDigitsMatch = slug.match(/(\d{2,3})/);
+const caseNum = explicitCaseMatch
+  ? explicitCaseMatch[1].padStart(3, '0')
+  : slugDigitsMatch
+    ? slugDigitsMatch[1].padStart(3, '1')
+    : String(Math.floor(Math.random() * 900) + 100);
 
 // =================================================================
 // ============ V2 PARSER + RENDERER ===============================
@@ -90,7 +98,10 @@ function parseV2(src) {
   // Pattern A: "## Slide 1 [layout: case-file-cover]"
   // Pattern B: "### Слайд 1 — `case-file-cover`"
   // Pattern C: "## СЛАЙД 1 · `case-file-cover`"
-  const headerRe = /^#{2,4}\s*(?:Slide|Слайд|СЛАЙД)\s*(\d+)\s*(?:[\[\(]\s*layout\s*:\s*([a-z\-]+)\s*[\]\)]|[—\-·:]?\s*[`']?([a-z\-]+)[`']?)?\s*([^\n]*)$/gim;
+  // BUGFIX: pre-layout `\s*` and trailing `\s*` were swallowing newlines (in /m mode)
+  // so m[4] ate the next markdown line — e.g. `**CASE-BAR:** ...` got pulled into the
+  // header and removed from the slide body. Use [ \t]* to stay on the same line.
+  const headerRe = /^#{2,4}[ \t]*(?:Slide|Слайд|СЛАЙД)[ \t]*(\d+)[ \t]*(?:[\[\(][ \t]*layout[ \t]*:[ \t]*([a-z\-]+)[ \t]*[\]\)]|[—\-·:]?[ \t]*[`']?([a-z\-]+)[`']?)?[ \t]*([^\n]*)$/gim;
 
   const headers = [];
   let m;
@@ -250,7 +261,10 @@ function extractHeadline(body) {
 function extractDirective(body, ...keys) {
   const lines = body.split('\n');
   // matches "**H1:**" "H1:" "- LABEL:" "HEADLINE (font spec):" — possibly empty value
-  const keyRe = new RegExp('^[\\-\\*]?\\s*(?:\\*\\*)?(?:' + keys.join('|') + ')(?:\\*\\*)?\\s*\\(?[^)]*\\)?\\s*[:：]\\s*(.*)$','i');
+  // Note: [^):] (not [^)]) — disallow ':' inside the optional "(spec)" part. Otherwise
+  // values that themselves contain ':' (e.g. "СТАТУС: ВИБИРАЄШ") get swallowed by the greedy
+  // `[^)]*` and the directive captures only the tail after the last colon.
+  const keyRe = new RegExp('^[\\-\\*]?\\s*(?:\\*\\*)?(?:' + keys.join('|') + ')(?:\\*\\*)?\\s*\\(?[^):]*\\)?\\s*[:：]\\s*(.*)$','i');
   for (let i = 0; i < lines.length; i++) {
     const l = lines[i].trim();
     const m = l.match(keyRe);
@@ -673,7 +687,7 @@ function renderV2Slide(s, idx, total) {
           .trim();
       }
       const seal = extractDirective(body, 'SEAL') || 'JD · 2026 · @yurii_dovhan';
-      const caseLabel = extractDirective(body, 'CASE BAR') || `CASE №${caseNum}`;
+      const caseLabel = extractDirective(body, 'CASE BAR', 'CASE-BAR', 'CASEBAR') || `CASE №${caseNum}`;
       return `
 <section class="slide" data-layout="case-closed" id="s${num}">
   <div class="case-bar">

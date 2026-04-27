@@ -1,0 +1,6 @@
+voice/
+tg_msg*.txt
+tg_inbox.jsonl
+tg_offset.txt
+.env*
+*.log
