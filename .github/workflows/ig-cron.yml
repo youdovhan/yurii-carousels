@@ -1,19 +1,19 @@
 name: IG Publisher Cron
 
-# Триггерит Vercel endpoint кожні 30 хв.
+# Триггерит Vercel endpoint кожні 5 хв.
 # Endpoint /api/instagram-publisher safe-by-default:
 #   - перевіряє Notion (Статус=Approved AND date:Публікувати о <= now)
 #   - якщо нема — повертає {"message":"Nothing to publish","count":0} (no-op)
 #   - idempotent: повторний виклик не дублює (статус→Publishing→Published)
 #
 # Vercel Hobby tier обмежений 1 cron/день (06:00 UTC) — цей workflow дає high-frequency drive.
+# Drift на */5 ~2-5 хв (раніше на */30 був ~5-15 хв) — критично для першого поста о 09:00 Київ.
+# Free tier usage: 288 ticks/день × 30 днів × ~10 сек = ~14.4 год/міс (з 2000 хв).
 
 on:
   schedule:
-    # Кожні 30 хв (UTC). Покриває обидва сценарії розкладу 20 каруселей:
-    #   (a) 20/день × 30хв = 10 годин
-    #   (b) 10+10 × 1год = 2 дні
-    - cron: '*/30 * * * *'
+    # Кожні 5 хв (UTC). Низький drift для precise publish windows.
+    - cron: '*/5 * * * *'
   workflow_dispatch: {}
 
 jobs:
