@@ -1,0 +1,42 @@
+name: IG Publisher Cron
+
+# Триггерит Vercel endpoint кожні 30 хв.
+# Endpoint /api/instagram-publisher safe-by-default:
+#   - перевіряє Notion (Статус=Approved AND date:Публікувати о <= now)
+#   - якщо нема — повертає {"message":"Nothing to publish","count":0} (no-op)
+#   - idempotent: повторний виклик не дублює (статус→Publishing→Published)
+#
+# Vercel Hobby tier обмежений 1 cron/день (06:00 UTC) — цей workflow дає high-frequency drive.
+
+on:
+  schedule:
+    # Кожні 30 хв (UTC). Покриває обидва сценарії розкладу 20 каруселей:
+    #   (a) 20/день × 30хв = 10 годин
+    #   (b) 10+10 × 1год = 2 дні
+    - cron: '*/30 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Call IG publisher endpoint
+        env:
+          IG_CRON_TOKEN: ${{ secrets.IG_CRON_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo "Triggering IG publisher at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          RESPONSE=$(curl -sS -X POST \
+            "https://detectivefm.vercel.app/api/instagram-publisher" \
+            -H "Authorization: Bearer ${IG_CRON_TOKEN}" \
+            -w "\nHTTP_STATUS:%{http_code}\n" \
+            --max-time 120)
+          echo "Response:"
+          echo "${RESPONSE}"
+          STATUS=$(echo "${RESPONSE}" | grep -oE 'HTTP_STATUS:[0-9]+' | cut -d: -f2)
+          if [ "${STATUS}" != "200" ]; then
+            echo "::error::Endpoint returned non-200 status: ${STATUS}"
+            exit 1
+          fi
+          echo "Endpoint call succeeded."
