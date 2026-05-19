@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Detective FM — ТЕХНІКА ПРОМПТУ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
+      :root {
+        --black: #141414;
+        --white: #f5f0e8;
+        --gold: #c9952a;
+        --red: #8b1a1a;
+        --gray: #6b6560;
+        --font-serif: "IBM Plex Serif", Georgia, serif;
+        --font-sans: "IBM Plex Sans", -apple-system, sans-serif;
+      }
+      body {
+        background: #0a0a0a;
+        font-family: var(--font-sans);
+      }
+
+      .slide {
+        width: 1080px;
+        height: 1350px;
+        position: relative;
+        overflow: hidden;
+        margin: 20px auto;
+        background: var(--black);
+        color: var(--white);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 160px 108px 100px;
+      }
+
+      /* ─── COVER ─────────────────────────────────────────────────── */
+      .cover {
+        justify-content: space-between;
+        padding: 100px 108px;
+      }
+      .cover .top {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.12em;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+      .cover .headline {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 78px;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        color: var(--white);
+      }
+      .cover .headline em {
+        font-style: italic;
+        color: var(--gold);
+      }
+      .cover .sub {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 1.4;
+        color: rgba(245, 240, 232, 0.5);
+        max-width: 760px;
+        margin-top: 36px;
+      }
+      .cover .bottom {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 15px;
+        letter-spacing: 0.08em;
+        color: var(--gray);
+        text-transform: lowercase;
+      }
+
+      /* ─── STATEMENT (темний слайд) ───────────────────────────────── */
+      .statement {
+        justify-content: center;
+        padding: 80px 108px;
+      }
+      .statement .eyebrow {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.14em;
+        color: var(--gold);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 44px;
+      }
+      .statement h2 {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 76px;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        color: var(--white);
+      }
+      .statement h2 em {
+        font-style: italic;
+        color: var(--gold);
+      }
+      .statement h2 s {
+        text-decoration: line-through;
+        color: var(--gray);
+      }
+      .statement .note {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 28px;
+        line-height: 1.5;
+        color: rgba(245, 240, 232, 0.6);
+        margin-top: 52px;
+        max-width: 840px;
+      }
+      .statement .note strong {
+        color: var(--white);
+        font-weight: 700;
+      }
+
+      /* ─── REVEAL (білий слайд — контраст) ───────────────────────── */
+      .reveal {
+        background: var(--white);
+        color: var(--black);
+        justify-content: center;
+        padding: 80px 108px;
+      }
+      .reveal .eyebrow {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.14em;
+        color: var(--red);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 44px;
+      }
+      .reveal h2 {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 72px;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        color: var(--black);
+      }
+      .reveal h2 em {
+        font-style: italic;
+        color: var(--red);
+      }
+      .reveal .note {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 28px;
+        line-height: 1.5;
+        color: rgba(20, 20, 20, 0.6);
+        margin-top: 52px;
+        max-width: 840px;
+      }
+      .reveal .note strong {
+        color: var(--black);
+        font-weight: 700;
+      }
+
+      /* ─── LIST (3 причини) ───────────────────────────────────────── */
+      .list-slide {
+        justify-content: center;
+        padding: 80px 108px;
+      }
+      .list-slide .eyebrow {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.14em;
+        color: var(--gold);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 56px;
+      }
+      .list-slide ol {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .list-slide ol li {
+        display: flex;
+        gap: 36px;
+        padding: 44px 0;
+        border-bottom: 1px solid rgba(245, 240, 232, 0.1);
+      }
+      .list-slide ol li:last-child {
+        border-bottom: none;
+      }
+      .list-slide .n {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 60px;
+        line-height: 1;
+        color: var(--gold);
+        flex-shrink: 0;
+        width: 64px;
+      }
+      .list-slide .text h3 {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 34px;
+        line-height: 1.2;
+        color: var(--white);
+        margin-bottom: 12px;
+      }
+      .list-slide .text p {
+        font-family: var(--font-sans);
+        font-weight: 400;
+        font-size: 23px;
+        line-height: 1.45;
+        color: rgba(245, 240, 232, 0.55);
+      }
+
+      /* ─── TECHNIQUE (темний, одна техніка великим) ───────────────── */
+      .technique {
+        justify-content: center;
+        padding: 80px 108px;
+      }
+      .technique .eyebrow {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.14em;
+        color: var(--gold);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 44px;
+      }
+      .technique .method {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 54px;
+        line-height: 1.18;
+        letter-spacing: -0.02em;
+        color: var(--white);
+      }
+      .technique .method em {
+        font-style: italic;
+        color: var(--gold);
+      }
+      .technique .question-block {
+        border-left: 4px solid var(--gold);
+        padding-left: 36px;
+        margin-top: 56px;
+      }
+      .technique .question-block .label {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.1em;
+        color: rgba(245, 240, 232, 0.45);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 14px;
+      }
+      .technique .question-block .q {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-weight: 400;
+        font-size: 42px;
+        line-height: 1.3;
+        color: var(--white);
+      }
+
+      /* ─── QUOTE ──────────────────────────────────────────────────── */
+      .quote-slide {
+        justify-content: center;
+        padding: 80px 108px;
+      }
+      .quote-slide .qmark {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 220px;
+        line-height: 0.65;
+        color: var(--gold);
+        display: block;
+        margin-bottom: 24px;
+      }
+      .quote-slide blockquote {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-weight: 400;
+        font-size: 48px;
+        line-height: 1.32;
+        color: var(--white);
+      }
+      .quote-slide blockquote strong {
+        font-style: normal;
+        color: var(--gold);
+        font-weight: 700;
+      }
+      .quote-slide .attr {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 20px;
+        color: rgba(245, 240, 232, 0.45);
+        margin-top: 56px;
+        padding-top: 22px;
+        border-top: 1px solid rgba(245, 240, 232, 0.15);
+      }
+
+      /* ─── INSIGHT (білий, фінальний висновок) ────────────────────── */
+      .insight {
+        background: var(--white);
+        color: var(--black);
+        justify-content: center;
+        padding: 80px 108px;
+      }
+      .insight .eyebrow {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.14em;
+        color: var(--red);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 44px;
+      }
+      .insight h2 {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 72px;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        color: var(--black);
+      }
+      .insight h2 em {
+        font-style: italic;
+        color: var(--red);
+      }
+      .insight .note {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 28px;
+        line-height: 1.5;
+        color: rgba(20, 20, 20, 0.6);
+        margin-top: 52px;
+        max-width: 840px;
+      }
+      .insight .note strong {
+        color: var(--black);
+        font-weight: 700;
+      }
+
+      /* ─── CTA ────────────────────────────────────────────────────── */
+      .cta-slide {
+        justify-content: space-between;
+        padding: 100px 108px;
+      }
+      .cta-slide .top {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 0.12em;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+      .cta-slide .body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+      .cta-slide .action {
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 22px;
+        letter-spacing: 0.1em;
+        color: rgba(245, 240, 232, 0.6);
+        text-transform: uppercase;
+        margin-bottom: 32px;
+      }
+      .cta-slide .code {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        font-size: 108px;
+        line-height: 0.95;
+        letter-spacing: 0.04em;
+        color: var(--white);
+        border: 3px solid var(--gold);
+        padding: 20px 48px;
+        display: inline-block;
+        margin: 0 auto;
+      }
+      .cta-slide .desc {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 1.4;
+        color: rgba(245, 240, 232, 0.65);
+        margin-top: 44px;
+      }
+      .cta-slide .guarantee {
+        border: 1px solid rgba(201, 149, 42, 0.4);
+        padding: 24px 32px;
+        margin-top: 36px;
+        background: rgba(201, 149, 42, 0.05);
+      }
+      .cta-slide .guarantee p {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 1.4;
+        color: rgba(245, 240, 232, 0.7);
+        text-align: center;
+      }
+      .cta-slide .guarantee strong {
+        color: var(--gold);
+      }
+      .cta-slide .bottom {
+        font-family: var(--font-sans);
+        font-weight: 500;
+        font-size: 15px;
+        letter-spacing: 0.08em;
+        color: var(--gray);
+        text-transform: lowercase;
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- СЛАЙД 1: ОБКЛАДИНКА -->
+    <section class="slide cover" id="s1">
+      <div class="top">AI ДЛЯ КОУЧІВ · ТЕХНІКА ПРОМПТУ</div>
+      <div>
+        <h1 class="headline">
+          AI не задає<br />правильних<br />питань.<br />Він <em>повторює</em
+          ><br />твої.
+        </h1>
+        <p class="sub">
+          Чому 80% коучів отримують банальщину —<br />і як це виправити одним
+          рухом.
+        </p>
+      </div>
+      <div class="bottom">@yurii_dovhan</div>
+    </section>
+
+    <!-- СЛАЙД 2: ЩО Я ЧУЮ ВІД КОУЧІВ -->
+    <section class="slide statement" id="s2">
+      <span class="eyebrow">Що я чую від коучів</span>
+      <h2>«ChatGPT дає мені<br /><em>банальщину.</em>»</h2>
+      <p class="note">
+        9 з 10 коучів за 2 місяці.<br /><strong>Проблема — не у моделі.</strong>
+      </p>
+    </section>
+
+    <!-- СЛАЙД 3: REVEAL -->
+    <section class="slide reveal" id="s3">
+      <span class="eyebrow">Виявилось</span>
+      <h2>
+        AI не <em>думає</em><br />за тебе.<br />Він <em>підсилює</em><br />твою
+        якість<br />запиту.
+      </h2>
+      <p class="note">
+        Поганий промпт = поганий вихід.<br /><strong
+          >Як з клієнтами: погане питання = поверхневі відповіді.</strong
+        >
+      </p>
+    </section>
+
+    <!-- СЛАЙД 4: 3 ЧАСТИНИ СИЛЬНОГО ПРОМПТУ -->
+    <section class="slide list-slide" id="s4">
+      <span class="eyebrow">3 частини сильного промпту</span>
+      <ol>
+        <li>
+          <span class="n">1</span>
+          <div class="text">
+            <h3>Роль</h3>
+            <p>
+              «Ти — старший супервізор з 20 роками практики. Не радник, не
+              друг.»
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="n">2</span>
+          <div class="text">
+            <h3>Контекст</h3>
+            <p>
+              Транскрипт сесії. Запит клієнта. 5 ключових цитат його ж словами.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="n">3</span>
+          <div class="text">
+            <h3>Обмеження</h3>
+            <p>
+              Без узагальнень. Без «спробуй». Тільки конкретні питання що
+              зрушують.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- СЛАЙД 5: ТЕХНІКА -->
+    <section class="slide technique" id="s5">
+      <span class="eyebrow">Як це виглядає</span>
+      <p class="method">
+        Замість <em>«дай питання»</em> —<br />пиши
+        <em
+          >«дай 7 питань,<br />кожне зрушує,<br />не утішає,<br />мовою
+          клієнта»</em
+        >.
+      </p>
+      <div class="question-block">
+        <span class="label">Різниця</span>
+        <p class="q">15 хвилин на промпт —<br />90% якості виходу.</p>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 6: ЦИТАТА -->
+    <section class="slide quote-slide" id="s6">
+      <span class="qmark">«</span>
+      <blockquote>
+        Я витрачаю 15 хвилин<br />на промпт перед сесією.<br />Беру з нього 3
+        питання.<br /><br />Клієнт <strong>розколюється</strong><br />на 5-й
+        хвилині.
+      </blockquote>
+      <div class="attr">— коуч, після 30 днів</div>
+    </section>
+
+    <!-- СЛАЙД 7: ВИСНОВОК -->
+    <section class="slide insight" id="s7">
+      <span class="eyebrow">Висновок</span>
+      <h2>
+        AI — це<br /><em>дзеркало</em><br />твого мислення.<br />Не
+        <em>генератор</em><br />мислення.
+      </h2>
+      <p class="note">
+        Хочеш кращих відповідей? <strong>Покращ запитання.</strong><br />Як і в
+        роботі з клієнтом.
+      </p>
+    </section>
+
+    <!-- СЛАЙД 8: CTA -->
+    <section class="slide cta-slide" id="s8">
+      <div class="top">DETECTIVE FM · КОУЧИНГ</div>
+      <div class="body">
+        <p class="action">Напиши в директ:</p>
+        <div class="code">ШАБЛОН</div>
+        <p class="desc">
+          Шаблон з 3 частин<br />для будь-якого промпта.<br />Як я підготовлюю
+          AI до 12 клієнтів.
+        </p>
+        <div class="guarantee">
+          <p>
+            Без галасу і «секрету мільйонерів».<br /><strong
+              >Тільки структура що працює.</strong
+            >
+          </p>
+        </div>
+      </div>
+      <div class="bottom">@yurii_dovhan</div>
+    </section>
+  </body>
+</html>
