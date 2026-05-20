@@ -1,0 +1,92 @@
+[
+  {
+    "idx": 1,
+    "slug": "p2-ai-zabere",
+    "idea_code": "P2",
+    "folder": "/Users/detective/Claude/carousels/carousel_y01_p2-ai-zabere_2026-05-20",
+    "title": "Психологи бояться AI — втрачають інші",
+    "kind": "psychology",
+    "slide_count": 8
+  },
+  {
+    "idx": 2,
+    "slug": "p5-glybyna-ne-shvydkist",
+    "idea_code": "P5",
+    "folder": "/Users/detective/Claude/carousels/carousel_y02_p5-glybyna-ne-shvydkist_2026-05-20",
+    "title": "AI не швидкість, а глибина",
+    "kind": "depth",
+    "slide_count": 8
+  },
+  {
+    "idx": 3,
+    "slug": "m2-pidruchnyk-vs-ti",
+    "idea_code": "M2",
+    "folder": "/Users/detective/Claude/carousels/carousel_y03_m2-pidruchnyk-vs-ti_2026-05-20",
+    "title": "AI знеособлює? Підручник знеособлює",
+    "kind": "myth",
+    "slide_count": 8
+  },
+  {
+    "idx": 4,
+    "slug": "m5-etyka-vs-podruga",
+    "idea_code": "M5",
+    "folder": "/Users/detective/Claude/carousels/carousel_y04_m5-etyka-vs-podruga_2026-05-20",
+    "title": "Етика AI? Сіра — це подруга за келихом",
+    "kind": "ethics",
+    "slide_count": 8
+  },
+  {
+    "idx": 5,
+    "slug": "k2-8-misyatsiv-vs-2-sesii",
+    "idea_code": "K2",
+    "folder": "/Users/detective/Claude/carousels/carousel_y05_k2-8-misyatsiv-vs-2-sesii_2026-05-20",
+    "title": "AI витягнув правду за 2 сесії",
+    "kind": "case",
+    "slide_count": 8
+  },
+  {
+    "idx": 6,
+    "slug": "k5-spaleno-cheq-plus-40",
+    "idea_code": "K5",
+    "folder": "/Users/detective/Claude/carousels/carousel_y06_k5-spaleno-cheq-plus-40_2026-05-20",
+    "title": "Палився що юзаю AI — чек +40%",
+    "kind": "case-transparency",
+    "slide_count": 8
+  },
+  {
+    "idx": 7,
+    "slug": "h1-prokrastynaciya-15min",
+    "idea_code": "H1",
+    "folder": "/Users/detective/Claude/carousels/carousel_y07_h1-prokrastynaciya-15min_2026-05-20",
+    "title": "Промт на прокрастинацію за 15 хв",
+    "kind": "howto",
+    "slide_count": 8
+  },
+  {
+    "idx": 8,
+    "slug": "h3-ai-mizh-sesiyamy",
+    "idea_code": "H3",
+    "folder": "/Users/detective/Claude/carousels/carousel_y08_h3-ai-mizh-sesiyamy_2026-05-20",
+    "title": "AI між сесіями без порад",
+    "kind": "howto-contract",
+    "slide_count": 8
+  },
+  {
+    "idx": 9,
+    "slug": "t1-2026-bez-ai",
+    "idea_code": "T1",
+    "folder": "/Users/detective/Claude/carousels/carousel_y09_t1-2026-bez-ai_2026-05-20",
+    "title": "Коуч без AI = коуч без сайту в 2015",
+    "kind": "hottake",
+    "slide_count": 8
+  },
+  {
+    "idx": 10,
+    "slug": "t5-anti-ai-shyrma",
+    "idea_code": "T5",
+    "folder": "/Users/detective/Claude/carousels/carousel_y10_t5-anti-ai-shyrma_2026-05-20",
+    "title": "Anti-AI — це ширма для слабкого методу",
+    "kind": "hottake-method",
+    "slide_count": 8
+  }
+]

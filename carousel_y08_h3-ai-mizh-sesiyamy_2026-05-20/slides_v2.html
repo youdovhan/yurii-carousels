@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Detective FM — AI між сесіями без порад</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+:root{
+  --black:#141414;
+  --white:#F5F0E8;
+  --gold:#C9952A;
+  --red:#8B1A1A;
+  --gray:#6B6560;
+  --font-serif:'IBM Plex Serif',Georgia,serif;
+  --font-sans:'IBM Plex Sans',-apple-system,sans-serif;
+}
+body{background:#0a0a0a;font-family:var(--font-sans)}
+
+.slide{
+  width:1080px;height:1350px;position:relative;overflow:hidden;
+  margin:20px auto;background:var(--black);color:var(--white);
+  display:flex;flex-direction:column;justify-content:flex-start;
+  padding:140px 100px 90px;
+}
+
+.cover{justify-content:space-between;padding:100px 100px}
+.cover .top{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;
+  letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;
+}
+.cover .headline{
+  font-family:var(--font-serif);font-weight:700;font-size:68px;line-height:1.05;
+  letter-spacing:-0.03em;color:var(--white);
+}
+.cover .headline em{font-style:italic;color:var(--gold)}
+.cover .headline s{text-decoration:line-through;color:var(--gray)}
+.cover .sub{
+  font-family:var(--font-sans);font-weight:500;font-size:24px;line-height:1.4;
+  color:rgba(245,240,232,0.55);max-width:720px;margin-top:32px;
+}
+.cover .bottom{
+  font-family:var(--font-sans);font-weight:500;font-size:14px;
+  letter-spacing:0.08em;color:var(--gray);text-transform:lowercase;
+}
+
+.statement{justify-content:center;padding:80px 100px}
+.statement .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--gold);text-transform:uppercase;display:block;margin-bottom:40px;
+}
+.statement h2{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.12;
+  letter-spacing:-0.025em;color:var(--white);
+}
+.statement h2 em{font-style:italic;color:var(--gold)}
+.statement h2 s{text-decoration:line-through;color:var(--gray)}
+.statement .note{
+  font-family:var(--font-sans);font-weight:500;font-size:26px;line-height:1.5;
+  color:rgba(245,240,232,0.62);margin-top:44px;max-width:840px;
+}
+.statement .note strong{color:var(--white);font-weight:700}
+
+.reveal{background:var(--white);color:var(--black);justify-content:center;padding:80px 100px}
+.reveal .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--red);text-transform:uppercase;display:block;margin-bottom:40px;
+}
+.reveal h2{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.12;
+  letter-spacing:-0.025em;color:var(--black);
+}
+.reveal h2 em{font-style:italic;color:var(--red)}
+.reveal h2 s{text-decoration:line-through;color:var(--gray)}
+.reveal .note{
+  font-family:var(--font-sans);font-weight:500;font-size:26px;line-height:1.5;
+  color:rgba(20,20,20,0.62);margin-top:44px;max-width:840px;
+}
+.reveal .note strong{color:var(--black);font-weight:700}
+
+.list-slide{justify-content:center;padding:80px 100px}
+.list-slide .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--gold);text-transform:uppercase;display:block;margin-bottom:48px;
+}
+.list-slide ol{list-style:none;display:flex;flex-direction:column;gap:0}
+.list-slide ol li{
+  display:flex;gap:32px;padding:36px 0;
+  border-bottom:1px solid rgba(245,240,232,0.10);
+}
+.list-slide ol li:last-child{border-bottom:none}
+.list-slide .n{
+  font-family:var(--font-serif);font-weight:700;font-size:56px;line-height:1;
+  color:var(--gold);flex-shrink:0;width:64px;
+}
+.list-slide .text h3{
+  font-family:var(--font-serif);font-weight:700;font-size:32px;line-height:1.2;
+  color:var(--white);margin-bottom:8px;
+}
+.list-slide .text p{
+  font-family:var(--font-sans);font-weight:400;font-size:22px;line-height:1.45;
+  color:rgba(245,240,232,0.6);
+}
+
+.technique{justify-content:center;padding:80px 100px}
+.technique .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--gold);text-transform:uppercase;display:block;margin-bottom:40px;
+}
+.technique .method{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.12;
+  letter-spacing:-0.025em;color:var(--white);
+}
+.technique .method em{font-style:italic;color:var(--gold)}
+.technique .question-block{
+  border-left:4px solid var(--gold);padding-left:32px;margin-top:48px;
+}
+.technique .question-block .label{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.1em;
+  color:rgba(245,240,232,0.5);text-transform:uppercase;display:block;margin-bottom:14px;
+}
+.technique .question-block .q{
+  font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:38px;
+  line-height:1.3;color:var(--white);
+}
+
+.quote-slide{justify-content:center;padding:80px 100px}
+.quote-slide .qmark{
+  font-family:var(--font-serif);font-weight:700;font-size:180px;line-height:0.65;
+  color:var(--gold);display:block;margin-bottom:24px;
+}
+.quote-slide blockquote{
+  font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:46px;
+  line-height:1.3;color:var(--white);
+}
+.quote-slide blockquote strong{font-style:normal;color:var(--gold);font-weight:700}
+.quote-slide .attr{
+  font-family:var(--font-sans);font-weight:600;font-size:18px;
+  color:rgba(245,240,232,0.5);margin-top:48px;
+  padding-top:20px;border-top:1px solid rgba(245,240,232,0.15);
+}
+
+.insight{background:var(--white);color:var(--black);justify-content:center;padding:80px 100px}
+.insight .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--red);text-transform:uppercase;display:block;margin-bottom:40px;
+}
+.insight h2{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.12;
+  letter-spacing:-0.025em;color:var(--black);
+}
+.insight h2 em{font-style:italic;color:var(--red)}
+.insight .note{
+  font-family:var(--font-sans);font-weight:500;font-size:26px;line-height:1.5;
+  color:rgba(20,20,20,0.62);margin-top:44px;max-width:840px;
+}
+
+.cta-slide{justify-content:space-between;padding:100px 100px}
+.cta-slide .top{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;
+  letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;
+}
+.cta-slide .body{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.cta-slide .action{
+  font-family:var(--font-sans);font-weight:600;font-size:20px;letter-spacing:0.1em;
+  color:rgba(245,240,232,0.65);text-transform:uppercase;margin-bottom:30px;
+}
+.cta-slide .code{
+  font-family:var(--font-serif);font-weight:700;font-size:104px;line-height:0.95;
+  letter-spacing:0.04em;color:var(--white);border:3px solid var(--gold);
+  padding:20px 44px;display:inline-block;margin:0 auto;
+}
+.cta-slide .desc{
+  font-family:var(--font-sans);font-weight:500;font-size:24px;line-height:1.4;
+  color:rgba(245,240,232,0.65);margin-top:40px;
+}
+.cta-slide .guarantee{
+  border:1px solid rgba(201,149,42,0.4);padding:20px 30px;margin-top:32px;
+  background:rgba(201,149,42,0.05);
+}
+.cta-slide .guarantee p{
+  font-family:var(--font-sans);font-weight:500;font-size:18px;line-height:1.4;
+  color:rgba(245,240,232,0.7);text-align:center;
+}
+.cta-slide .guarantee strong{color:var(--gold)}
+.cta-slide .bottom{
+  font-family:var(--font-sans);font-weight:500;font-size:14px;
+  letter-spacing:0.08em;color:var(--gray);text-transform:lowercase;text-align:right;
+}
+</style>
+</head>
+<body>
+<section class="slide cover">
+  <div class="top">DETECTIVE FM · ПРОМТ</div>
+  <div>
+    <h1 class="headline">AI між<br>сесіями.<br><em>Без</em> порад.</h1>
+    <p class="sub">Як налаштувати ChatGPT<br>щоб він не лікував клієнта.</p>
+  </div>
+  <div class="bottom">@yurii_dovhan</div>
+</section>
+<section class="slide statement">
+  <span class="eyebrow">ПРОБЛЕМА</span>
+  <h2>ChatGPT <em>любить</em><br>давати поради.<br>Це — <s>шкідливо</s>.</h2>
+  <p class="note">Клієнт між сесіями<br>отримує «5 порад як заспокоїтись».<br><strong>Це не твоя робота.</strong></p>
+</section>
+<section class="slide reveal">
+  <span class="eyebrow">РІШЕННЯ</span>
+  <h2>Промт-<em>контракт</em><br>на початку<br>розмови.</h2>
+  <p class="note">Чітко: ти не терапевт.<br>Ти — дзеркало.<br><strong>Тільки питання, тільки рефлексія.</strong></p>
+</section>
+<section class="slide list-slide">
+  <span class="eyebrow">3 ЧАСТИНИ ПРОМТУ</span>
+  <ol>
+    <li><span class="n">1</span><div class="text"><h3>Роль</h3><p>«Ти — дзеркало рефлексії. Не терапевт. Не порадник.»</p></div></li>
+    <li><span class="n">2</span><div class="text"><h3>Заборони</h3><p>«Без порад. Без «варто». Без «спробуй».»</p></div></li>
+    <li><span class="n">3</span><div class="text"><h3>Дозволи</h3><p>«Тільки питання, що поглиблюють. До 3 за відповідь.»</p></div></li>
+  </ol>
+</section>
+<section class="slide technique">
+  <span class="eyebrow">ОБМЕЖЕННЯ ЯКЕ ЗМІНЮЄ ВСЕ</span>
+  <p class="method">Дозвіл —<br><em>тільки</em><br>питання.</p>
+  <div class="question-block">
+    <span class="label">ОДНА ФРАЗА</span>
+    <p class="q">«Якщо я кажу "як мені бути" —<br>повертай мене до мого<br>досвіду питанням.»</p>
+  </div>
+</section>
+<section class="slide quote-slide">
+  <span class="qmark">«</span>
+  <blockquote>«Як мені бути?»<br>«Що ти вже пробувала?<br>Що з цього<br><strong>працювало</strong>?»</blockquote>
+  <div class="attr">— діалог клієнтки з налаштованим ChatGPT</div>
+</section>
+<section class="slide insight">
+  <span class="eyebrow">ЩО ЦЕ ОЗНАЧАЄ</span>
+  <h2>AI-співрозмовник<br>можливий.<br>З <em>контрактом.</em></h2>
+  <p class="note">Між сесіями клієнт чує себе.<br>А не «5 порад» з інтернету.</p>
+</section>
+<section class="slide cta-slide">
+  <div class="top">DETECTIVE FM · КОУЧИНГ</div>
+  <div class="body">
+    <p class="action">Напиши в директ:</p>
+    <div class="code">ПРОМТИ</div>
+    <p class="desc">PDF з 4 промптами.<br>Серед них — повний<br>текст AI-співрозмовника.</p>
+    <div class="guarantee"><p>Не зайшло — повертаю гроші.<br><strong>Промт твій, гроші твої.</strong></p></div>
+  </div>
+  <div class="bottom">@yurii_dovhan</div>
+</section>
+</body>
+</html>

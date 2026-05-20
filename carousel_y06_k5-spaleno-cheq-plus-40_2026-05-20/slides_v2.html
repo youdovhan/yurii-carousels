@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Detective FM — Палився що юзаю AI — чек +40%</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+:root{
+  --black:#141414;
+  --white:#F5F0E8;
+  --gold:#C9952A;
+  --red:#8B1A1A;
+  --gray:#6B6560;
+  --font-serif:'IBM Plex Serif',Georgia,serif;
+  --font-sans:'IBM Plex Sans',-apple-system,sans-serif;
+}
+body{background:#0a0a0a;font-family:var(--font-sans)}
+
+.slide{
+  width:1080px;height:1350px;position:relative;overflow:hidden;
+  margin:20px auto;background:var(--black);color:var(--white);
+  display:flex;flex-direction:column;justify-content:flex-start;
+  padding:140px 100px 90px;
+}
+
+.cover{justify-content:space-between;padding:100px 100px}
+.cover .top{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;
+  letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;
+}
+.cover .headline{
+  font-family:var(--font-serif);font-weight:700;font-size:68px;line-height:1.05;
+  letter-spacing:-0.03em;color:var(--white);
+}
+.cover .headline em{font-style:italic;color:var(--gold)}
+.cover .headline s{text-decoration:line-through;color:var(--gray)}
+.cover .sub{
+  font-family:var(--font-sans);font-weight:500;font-size:24px;line-height:1.4;
+  color:rgba(245,240,232,0.55);max-width:720px;margin-top:32px;
+}
+.cover .bottom{
+  font-family:var(--font-sans);font-weight:500;font-size:14px;
+  letter-spacing:0.08em;color:var(--gray);text-transform:lowercase;
+}
+
+.statement{justify-content:center;padding:80px 100px}
+.statement .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--gold);text-transform:uppercase;display:block;margin-bottom:40px;
+}
+.statement h2{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.12;
+  letter-spacing:-0.025em;color:var(--white);
+}
+.statement h2 em{font-style:italic;color:var(--gold)}
+.statement h2 s{text-decoration:line-through;color:var(--gray)}
+.statement .note{
+  font-family:var(--font-sans);font-weight:500;font-size:26px;line-height:1.5;
+  color:rgba(245,240,232,0.62);margin-top:44px;max-width:840px;
+}
+.statement .note strong{color:var(--white);font-weight:700}
+
+.reveal{background:var(--white);color:var(--black);justify-content:center;padding:80px 100px}
+.reveal .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--red);text-transform:uppercase;display:block;margin-bottom:40px;
+}
+.reveal h2{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.12;
+  letter-spacing:-0.025em;color:var(--black);
+}
+.reveal h2 em{font-style:italic;color:var(--red)}
+.reveal h2 s{text-decoration:line-through;color:var(--gray)}
+.reveal .note{
+  font-family:var(--font-sans);font-weight:500;font-size:26px;line-height:1.5;
+  color:rgba(20,20,20,0.62);margin-top:44px;max-width:840px;
+}
+.reveal .note strong{color:var(--black);font-weight:700}
+
+.list-slide{justify-content:center;padding:80px 100px}
+.list-slide .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--gold);text-transform:uppercase;display:block;margin-bottom:48px;
+}
+.list-slide ol{list-style:none;display:flex;flex-direction:column;gap:0}
+.list-slide ol li{
+  display:flex;gap:32px;padding:36px 0;
+  border-bottom:1px solid rgba(245,240,232,0.10);
+}
+.list-slide ol li:last-child{border-bottom:none}
+.list-slide .n{
+  font-family:var(--font-serif);font-weight:700;font-size:56px;line-height:1;
+  color:var(--gold);flex-shrink:0;width:64px;
+}
+.list-slide .text h3{
+  font-family:var(--font-serif);font-weight:700;font-size:32px;line-height:1.2;
+  color:var(--white);margin-bottom:8px;
+}
+.list-slide .text p{
+  font-family:var(--font-sans);font-weight:400;font-size:22px;line-height:1.45;
+  color:rgba(245,240,232,0.6);
+}
+
+.technique{justify-content:center;padding:80px 100px}
+.technique .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--gold);text-transform:uppercase;display:block;margin-bottom:40px;
+}
+.technique .method{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.12;
+  letter-spacing:-0.025em;color:var(--white);
+}
+.technique .method em{font-style:italic;color:var(--gold)}
+.technique .question-block{
+  border-left:4px solid var(--gold);padding-left:32px;margin-top:48px;
+}
+.technique .question-block .label{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.1em;
+  color:rgba(245,240,232,0.5);text-transform:uppercase;display:block;margin-bottom:14px;
+}
+.technique .question-block .q{
+  font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:38px;
+  line-height:1.3;color:var(--white);
+}
+
+.quote-slide{justify-content:center;padding:80px 100px}
+.quote-slide .qmark{
+  font-family:var(--font-serif);font-weight:700;font-size:180px;line-height:0.65;
+  color:var(--gold);display:block;margin-bottom:24px;
+}
+.quote-slide blockquote{
+  font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:46px;
+  line-height:1.3;color:var(--white);
+}
+.quote-slide blockquote strong{font-style:normal;color:var(--gold);font-weight:700}
+.quote-slide .attr{
+  font-family:var(--font-sans);font-weight:600;font-size:18px;
+  color:rgba(245,240,232,0.5);margin-top:48px;
+  padding-top:20px;border-top:1px solid rgba(245,240,232,0.15);
+}
+
+.insight{background:var(--white);color:var(--black);justify-content:center;padding:80px 100px}
+.insight .eyebrow{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:0.14em;
+  color:var(--red);text-transform:uppercase;display:block;margin-bottom:40px;
+}
+.insight h2{
+  font-family:var(--font-serif);font-weight:700;font-size:60px;line-height:1.12;
+  letter-spacing:-0.025em;color:var(--black);
+}
+.insight h2 em{font-style:italic;color:var(--red)}
+.insight .note{
+  font-family:var(--font-sans);font-weight:500;font-size:26px;line-height:1.5;
+  color:rgba(20,20,20,0.62);margin-top:44px;max-width:840px;
+}
+
+.cta-slide{justify-content:space-between;padding:100px 100px}
+.cta-slide .top{
+  font-family:var(--font-sans);font-weight:600;font-size:15px;
+  letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;
+}
+.cta-slide .body{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.cta-slide .action{
+  font-family:var(--font-sans);font-weight:600;font-size:20px;letter-spacing:0.1em;
+  color:rgba(245,240,232,0.65);text-transform:uppercase;margin-bottom:30px;
+}
+.cta-slide .code{
+  font-family:var(--font-serif);font-weight:700;font-size:104px;line-height:0.95;
+  letter-spacing:0.04em;color:var(--white);border:3px solid var(--gold);
+  padding:20px 44px;display:inline-block;margin:0 auto;
+}
+.cta-slide .desc{
+  font-family:var(--font-sans);font-weight:500;font-size:24px;line-height:1.4;
+  color:rgba(245,240,232,0.65);margin-top:40px;
+}
+.cta-slide .guarantee{
+  border:1px solid rgba(201,149,42,0.4);padding:20px 30px;margin-top:32px;
+  background:rgba(201,149,42,0.05);
+}
+.cta-slide .guarantee p{
+  font-family:var(--font-sans);font-weight:500;font-size:18px;line-height:1.4;
+  color:rgba(245,240,232,0.7);text-align:center;
+}
+.cta-slide .guarantee strong{color:var(--gold)}
+.cta-slide .bottom{
+  font-family:var(--font-sans);font-weight:500;font-size:14px;
+  letter-spacing:0.08em;color:var(--gray);text-transform:lowercase;text-align:right;
+}
+</style>
+</head>
+<body>
+<section class="slide cover">
+  <div class="top">DETECTIVE FM · КЕЙС #5</div>
+  <div>
+    <h1 class="headline">Я <em>спалив</em>себе<br>перед клієнтом:<br>«я юзаю AI».</h1>
+    <p class="sub">Чек піднявся на 40%.<br>Розкажу як саме.</p>
+  </div>
+  <div class="bottom">@yurii_dovhan</div>
+</section>
+<section class="slide statement">
+  <span class="eyebrow">ЩО Я БОЯВСЯ ПОЧУТИ</span>
+  <h2>«А я <em>думав</em><br>ти сам<br><s>професіонал</s>.»</h2>
+  <p class="note">Не сказав цього жоден.<br>Жоден з 12 клієнтів.<br><strong>Сказали інше.</strong></p>
+</section>
+<section class="slide reveal">
+  <span class="eyebrow">ЩО ВОНИ СКАЗАЛИ</span>
+  <h2>«Я можу<br><em>сам</em> так<br>робити?»</h2>
+  <p class="note">Це і є відповідь.<br>Не страх. Не недовіра.<br><strong>Цікавість.</strong></p>
+</section>
+<section class="slide list-slide">
+  <span class="eyebrow">3 РЕЧІ ЯКІ Я ЗРОБИВ</span>
+  <ol>
+    <li><span class="n">1</span><div class="text"><h3>Показав промт</h3><p>Один. На екрані. Той що для нотаток сесії.</p></div></li>
+    <li><span class="n">2</span><div class="text"><h3>Дав попробувати</h3><p>10 хвилин. На своєму прикладі. Без оплати.</p></div></li>
+    <li><span class="n">3</span><div class="text"><h3>Підняв чек</h3><p>На наступній сесії. На 40%. Жоден не пішов.</p></div></li>
+  </ol>
+</section>
+<section class="slide technique">
+  <span class="eyebrow">ЧОМУ ВОНИ ЗАПЛАТИЛИ БІЛЬШЕ</span>
+  <p class="method">Купують не<br>тебе. Купують<br><em>прозорість.</em></p>
+  <div class="question-block">
+    <span class="label">ПОВНА ЛОГІКА</span>
+    <p class="q">«Ти показуєш як працює.<br>Я бачу куди йдуть гроші.<br>Це — довіра.»</p>
+  </div>
+</section>
+<section class="slide quote-slide">
+  <span class="qmark">«</span>
+  <blockquote>Я платив 12 коучам.<br>Лише ти показав<br><strong>як думаєш.</strong><br>Тому я залишився.</blockquote>
+  <div class="attr">— клієнт, після підняття чеку</div>
+</section>
+<section class="slide insight">
+  <span class="eyebrow">ЩО ЦЕ ОЗНАЧАЄ</span>
+  <h2>Прозорість<br>дорожча за<br><em>магію.</em></h2>
+  <p class="note">Тримати в секреті — це 2015.<br>Показувати кухню — це 2026.</p>
+</section>
+<section class="slide cta-slide">
+  <div class="top">DETECTIVE FM · КОУЧИНГ</div>
+  <div class="body">
+    <p class="action">Напиши в директ:</p>
+    <div class="code">СЕСІЯ</div>
+    <p class="desc">Перша сесія — €39. 2 години.<br>Покажу всю свою кухню.<br>Без секретів і магії.</p>
+    <div class="guarantee"><p>Не моє — повертаю гроші.<br><strong>Без жодного «давай ще спробуєм».</strong></p></div>
+  </div>
+  <div class="bottom">@yurii_dovhan</div>
+</section>
+</body>
+</html>
